@@ -1,0 +1,1 @@
+// MedicalRecord model
