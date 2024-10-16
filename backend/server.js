@@ -20,6 +20,7 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+//TODO : Squaash those users into 1 route
 app.use('/api/patients', patientRoutes); //routes for patient methods
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/payments', paymentRoutes);
@@ -27,6 +28,8 @@ app.use('/api/staff', staffRoutes);
 app.use('/api/doctors', doctorRoutes); //routes for doctor methods
 app.use('/api/healthcaremanagers', healthCareManagerRoutes);
 
+//Admin Routes
+app.use('/api/admin', require('./routes/adminRoutes.js'));
 
 app.use(express.static(path.join(__dirname, "./client/build")));
 
