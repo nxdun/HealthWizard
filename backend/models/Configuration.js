@@ -1,4 +1,4 @@
-// configuration.js
+// models/configuration.js
 const mongoose = require('mongoose');
 
 // Define the Configuration schema
@@ -16,6 +16,25 @@ configurationSchema.methods.getSettings = function() {
 configurationSchema.methods.setSettings = function(newSettings) {
     this.settings = newSettings;
     return this.save();
+};
+
+// Static method to get configuration by key
+configurationSchema.statics.getConfigByKey = async function(key) {
+    const config = await this.findOne({ key });
+    if (!config) {
+        throw new Error(`Configuration with key "${key}" not found.`);
+    }
+    return config.settings;
+};
+
+// Static method to update configuration by key
+configurationSchema.statics.updateConfigByKey = async function(key, newSettings) {
+    let config = await this.findOne({ key });
+    if (!config) {
+        throw new Error(`Configuration with key "${key}" not found.`);
+    }
+    config.settings = newSettings;
+    return config.save();
 };
 
 // Create the Configuration model
