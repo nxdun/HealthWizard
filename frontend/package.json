@@ -24,7 +24,8 @@
     "shadergradient": "^1.2.14",
     "three": "0.154.0",
     "framer-motion": "^11.3.31",
-    "@react-three/fiber": "^8.17.6"
+    "@react-three/fiber": "^8.17.6",
+    "@react-three/drei": "^9.109.1"
   },
   "scripts": {
     "dev": "react-scripts start",

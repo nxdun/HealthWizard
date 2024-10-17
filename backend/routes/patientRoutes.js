@@ -12,19 +12,6 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Get a patient by ID
-router.get('/:patientID', async (req, res) => {
-    try {
-        const patient = await Patient.findOne({ patientID: req.params.patientID });
-        if (!patient) {
-            return res.status(404).json({ message: 'Patient not found' });
-        }
-        res.json(patient);
-    } catch (err) {
-        res.status(500).json({ message: 'Error retrieving patient', error: err.message });
-    }
-});
-
 // Create a new patient
 router.post('/', async (req, res) => {
     try {
@@ -51,6 +38,21 @@ router.post('/', async (req, res) => {
         res.status(500).json({ message: 'Error creating patient', error: err.message });
     }
 });
+
+// Get a patient by ID
+router.get('/:patientID', async (req, res) => {
+    try {
+        const patient = await Patient.findOne({ patientID: req.params.patientID });
+        if (!patient) {
+            return res.status(404).json({ message: 'Patient not found' });
+        }
+        res.json(patient);
+    } catch (err) {
+        res.status(500).json({ message: 'Error retrieving patient', error: err.message });
+    }
+});
+
+
 
 // Update a patient
 router.put('/:patientID', async (req, res) => {
