@@ -6,6 +6,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: rgba(255, 255, 255, 0.1); /* Light glassmorphism effect */
+  backdrop-filter: blur(10px); /* Subtle blur for glass effect */
+  border-radius: 10px; /* Rounded corners */
+  padding: 2rem;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Soft shadow */
 }
 
 .user-container {
@@ -18,6 +23,8 @@
 h3 {
   font-size: 2rem;
   text-align: center;
+  color: rgb(16, 22, 88); /* Dark blue text */
+  margin-bottom: 1rem; /* Spacing below the heading */
 }
 
 table {
@@ -30,9 +37,9 @@ table {
 th {
   text-align: center;
   font-weight: 700;
-  padding: 0.3rem 1rem;
-  background-color: rgb(219, 223, 246);
-  color: var(--bold-text-color);
+  padding: 0.5rem 1rem;
+  background-color: rgba(16, 22, 88, 0.7); /* Dark blue background for header */
+  color: white; /* White text for contrast */
 }
 
 tr {
@@ -40,16 +47,16 @@ tr {
 }
 
 tr:nth-child(2n + 1) {
-  background-color: rgb(234, 234, 234);
+  background-color: rgba(234, 234, 234, 0.9); /* Light gray for odd rows */
 }
 
 tr:nth-child(2n + 2) {
-  background-color: rgb(226, 237, 255);
+  background-color: rgba(226, 237, 255, 0.9); /* Light blue for even rows */
 }
 
 td {
   padding: 10px;
-  color: var(--light-text-color);
+  color: rgb(16, 22, 88); /* Dark blue text for table cells */
   text-align: center !important;
 }
 
@@ -57,7 +64,7 @@ td {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  border: 1px solid rgb(165, 165, 165);
+  border: 2px solid rgba(165, 165, 165, 0.5); /* Subtle border */
 }
 
 .select {
@@ -68,25 +75,36 @@ td {
 }
 
 .user-btn {
-  background-color: rgb(233, 83, 113);
+  background-color: rgba(233, 83, 113, 0.9); /* Updated color with slight transparency */
+  color: white; /* White text */
   font-size: 0.8rem;
   padding: 0.5rem 0.8rem;
+  border: none;
+  border-radius: 5px; /* Rounded button corners */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
 }
 
 .user-btn:hover {
-  background-color: crimson;
+  background-color: rgba(233, 83, 113, 1); /* Solid color on hover */
+  transform: translateY(-2px); /* Subtle lift effect on hover */
 }
 
 .accept-btn {
-  background-color: rgba(0, 128, 0, 0.528);
+  background-color: rgba(0, 128, 0, 0.7); /* Updated color with transparency */
+  color: white; /* White text */
   font-size: 0.8rem;
   padding: 0.5rem 0.8rem;
+  border: none;
+  border-radius: 5px; /* Rounded button corners */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
 }
 
 .accept-btn:hover {
-  background-color: green;
+  background-color: rgba(0, 128, 0, 1); /* Solid color on hover */
+  transform: translateY(-2px); /* Subtle lift effect on hover */
 }
 
+/* Responsive Adjustments */
 @media (max-width: 1126px) {
   .user-section {
     width: 70vw;

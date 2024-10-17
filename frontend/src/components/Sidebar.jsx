@@ -13,38 +13,38 @@ import { MdLogout } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { setUserInfo } from "../redux/reducers/rootSlice";
 
-const Sidebar = () => {
+const               Sidebar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const sidebar = [
     {
-      name: "Home",
+      name: "\u00A0 Home",
       path: "/",
       icon: <FaHome />,
     },
     {
-      name: "Users",
+      name: "\u00A0 Users",
       path: "/dashboard/users",
       icon: <FaUsers />,
     },
     {
-      name: "Doctors",
+      name: "\u00A0 Doctors",
       path: "/dashboard/doctors",
       icon: <FaUserMd />,
     },
     {
-      name: "Appointments",
+      name: "\u00A0 Appointments",
       path: "/dashboard/appointments",
       icon: <FaList />,
     },
     {
-      name: "Applications",
+      name: "\u00A0 Applications",
       path: "/dashboard/applications",
       icon: <FaEnvelope />,
     },
     {
-      name: "Profile",
+      name: "\u00A0 Profile",
       path: "/profile",
       icon: <FaUser />,
     },

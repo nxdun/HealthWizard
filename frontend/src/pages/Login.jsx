@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { setUserInfo } from "../redux/reducers/rootSlice";
 import jwt_decode from "jwt-decode";
 import fetchData from "../helper/apiCall";
+import ShaderCanvas from "../components/ShaderCanvas";
 
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_DOMAIN;
 
@@ -67,6 +68,8 @@ function Login() {
   };
 
   return (
+    <>
+    <ShaderCanvas />
     <section className="register-section flex-center">
       <div className="register-container flex-center">
         <h2 className="form-heading">Sign In</h2>
@@ -108,6 +111,7 @@ function Login() {
         </p>
       </div>
     </section>
+    </>
   );
 }
 

@@ -3,16 +3,31 @@
 .register-section {
   width: 100%;
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+  backdrop-filter: blur(10px); /* Glassmorphism blur effect */
 }
 
 .register-container {
+  display: flex;
   flex-direction: column;
   gap: 2rem;
   width: 30%;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.15); /* Transparent background for container */
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); /* Soft shadow for depth */
+  backdrop-filter: blur(10px); /* Glass effect */
+  border: 1px solid rgba(255, 255, 255, 0.18); /* Light border */
+  transition: all 0.3s ease;
 }
 
 .form-heading {
   font-size: 2rem;
+  color: #ff6347; /* Tomato red for heading */
+  text-align: center;
 }
 
 .register-form {
@@ -26,17 +41,26 @@
 textarea,
 select {
   font-size: 1rem;
-  background-color: rgb(234, 234, 234);
+  background-color: rgba(255, 255, 255, 0.2); /* Slight transparency */
   padding: 0.8rem 1.5rem;
   border: none;
   border-radius: 5px;
   font-family: var(--font-family);
+  color: var(--bold-text-color); /* Text color for readability */
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1); /* Subtle inner shadow */
+  transition: background-color 0.3s ease;
 }
 
 .form-input:focus,
 textarea:focus,
 select:focus {
+  background-color: rgba(255, 255, 255, 0.3); /* Change background on focus */
   outline: none;
+  box-shadow: 0 0 8px rgba(255, 99, 71, 0.5); /* Add a soft glow */
+}
+
+.form-input::placeholder {
+  color: rgba(0, 0, 0, 0.5); /* Placeholder color */
 }
 
 input::-webkit-outer-spin-button,
@@ -46,7 +70,15 @@ input::-webkit-inner-spin-button {
 }
 
 .login-link {
-  color: var(--darker-blue);
+  color: #007bff; /* Similar blue for links */
+  text-align: center;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.login-link:hover {
+  color: #0056b3; /* Darker blue on hover */
 }
 
 @media (max-width: 1184px) {

@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import "../styles/register.css";
 import axios from "axios";
 import toast from "react-hot-toast";
+import ShaderCanvas from "../components/ShaderCanvas";
 
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_DOMAIN;
 
@@ -87,6 +88,8 @@ function Register() {
   };
 
   return (
+    <>
+      <ShaderCanvas />
     <section className="register-section flex-center">
       <div className="register-container flex-center">
         <h2 className="form-heading">Sign Up</h2>
@@ -160,6 +163,7 @@ function Register() {
         </p>
       </div>
     </section>
+    </>
   );
 }
 

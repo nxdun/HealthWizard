@@ -4,11 +4,13 @@ import AdminAppointments from "../components/AdminAppointments";
 import AdminDoctors from "../components/AdminDoctors";
 import Sidebar from "../components/Sidebar";
 import Users from "../components/Users";
+import ShaderCanvas from "../components/ShaderCanvas";
 
 const Dashboard = (props) => {
   const { type } = props;
   return (
     <>
+    <ShaderCanvas />
       <section className="layout-section">
         <div className="layout-container">
           <Sidebar />
