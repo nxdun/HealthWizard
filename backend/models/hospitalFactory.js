@@ -12,6 +12,7 @@ class HospitalTypeFactory {
         } else if (type === 'Private') {
             return new PrivateHospital(paymentMethods);
         }
+        //can add more types here
         return null; // Return null if the type is not recognized
     }
 }

@@ -1,4 +1,5 @@
-// globalModel.js (Singleton Implementation)
+// globalModel.js 
+// ? Singleton Pattern ⏬
 class GlobalModel {
     constructor() {
         if (!GlobalModel.instance) {

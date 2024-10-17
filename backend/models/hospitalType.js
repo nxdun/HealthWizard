@@ -17,7 +17,7 @@ class GovernmentHospital extends HospitalType {
     }
 
     getAllowedPaymentMethods() {
-        // Retrieve payment methods from GlobalModel's config for 'Government' hospitals
+        // ? Retrieve payment methods from GlobalModel's config for 'Government' hospitals
         const config = GlobalModel.config;
         return config?.paymentMethods?.Government || [];
     }
@@ -29,7 +29,7 @@ class PrivateHospital extends HospitalType {
     }
 
     getAllowedPaymentMethods() {
-        // Retrieve payment methods from GlobalModel's config for 'Private' hospitals
+        // ? Retrieve payment methods from GlobalModel's config for 'Private' hospitals
         const config = GlobalModel.config;
         return config?.paymentMethods?.Private || [];
     }

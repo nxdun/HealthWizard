@@ -1,4 +1,5 @@
 // paymentStrategy.js
+// ? Strategy Pattern ⏬
 class PaymentStrategy {
     processPayment(amount) {
         throw new Error('processPayment() must be implemented');
