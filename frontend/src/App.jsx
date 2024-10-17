@@ -15,7 +15,7 @@ const Profile = lazy(() => import("./pages/Profile"));
 const Notifications = lazy(() => import("./pages/Notifications"));
 const ApplyDoctor = lazy(() => import("./pages/ApplyDoctor"));
 const Error = lazy(() => import("./pages/Error"));
-
+//hi
 function App() {
   return (
     <Router>
