@@ -1,8 +1,7 @@
-
-// paymentStrategy.js (Strategy Pattern Implementation)
+// paymentStrategy.js
 class PaymentStrategy {
     processPayment(amount) {
-        throw new Error('This method should be overridden');
+        throw new Error('processPayment() must be implemented');
     }
 }
 
@@ -18,4 +17,15 @@ class InsurancePayment extends PaymentStrategy {
     }
 }
 
-module.exports = { PaymentStrategy, CreditCardPayment, InsurancePayment };
+class GovernmentPayment extends PaymentStrategy {
+    processPayment(amount) {
+        console.log(`Processing government payment of $${amount}`);
+    }
+}
+
+module.exports = {
+    PaymentStrategy,
+    CreditCardPayment,
+    InsurancePayment,
+    GovernmentPayment,
+};

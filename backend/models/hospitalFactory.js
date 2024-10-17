@@ -1,26 +1,18 @@
 // hospitalFactory.js (Factory Pattern Implementation)
+const { GovernmentHospital, PrivateHospital } = require('./hospitalType');
+const GlobalModel = require('../models/globalModel');
+
 class HospitalTypeFactory {
     createHospitalType(type) {
+        const config = GlobalModel.config; // Get the configuration from the global model
+        const paymentMethods = config?.settings?.paymentMethods?.[type] || []; // Get payment methods based on the type
+
         if (type === 'Government') {
-            return new GovernmentHospital();
+            return new GovernmentHospital(paymentMethods);
         } else if (type === 'Private') {
-            return new PrivateHospital();
+            return new PrivateHospital(paymentMethods);
         }
         return null; // Return null if the type is not recognized
-    }
-}
-
-class GovernmentHospital {
-    setupHospital() {
-        console.log('Setting up Government Hospital');
-        // Add additional logic for setting up a Government Hospital here
-    }
-}
-
-class PrivateHospital {
-    setupHospital() {
-        console.log('Setting up Private Hospital');
-        // Add additional logic for setting up a Private Hospital here
     }
 }
 

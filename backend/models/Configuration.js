@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 
 // Define the Configuration schema
 const configurationSchema = new mongoose.Schema({
-    key: { type: String, required: true, unique: true, default: 'globalConfig' }, // Unique key to ensure single entry
-    settings: { type: mongoose.Schema.Types.Mixed, required: true } // Use Mixed type for flexible settings
+    key: { type: String, required: true, unique: true, default: 'globalConfig' },
+    settings: { type: mongoose.Schema.Types.Mixed, required: true }
 });
 
 // Instance method to get settings
@@ -37,7 +37,6 @@ configurationSchema.statics.updateConfigByKey = async function(key, newSettings)
     return config.save();
 };
 
-// Create the Configuration model
 const Configuration = mongoose.model('Configuration', configurationSchema);
 
 module.exports = Configuration;

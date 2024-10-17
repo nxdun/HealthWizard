@@ -1,6 +1,4 @@
-
 // globalModel.js (Singleton Implementation)
-// This file contains the singleton implementation of the GlobalModel class.
 class GlobalModel {
     constructor() {
         if (!GlobalModel.instance) {
@@ -12,11 +10,15 @@ class GlobalModel {
     }
 
     setupHospitalType(type) {
-        this.hospitalType = type;
+        const factory = new HospitalTypeFactory();
+        this.hospitalType = factory.createHospitalType(type);
     }
 
     configureSystem(config) {
         this.config = config;
+        if (this.hospitalType) {
+            this.setupHospitalType(this.hospitalType.constructor.name); // Reinitialize hospital type with updated config
+        }
     }
 
     static getInstance() {
