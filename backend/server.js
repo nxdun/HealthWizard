@@ -40,11 +40,12 @@ app.use('/api/appointments', appointmentRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/doctors', doctorRoutes); //routes for doctor methods
 app.use('/api/healthcaremanagers', healthCareManagerRoutes);
+app.use('/api/records', require('./routes/medRecRoutes.js'));
 
 //Admin Routes
 app.use('/api/admin', require('./routes/adminRoutes.js'));
 
-app.use(express.static(path.join(__dirname, "./client/build")));
+app.use(express.static(path.join(__dirname, "./client")));
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "./client/index.html"));
