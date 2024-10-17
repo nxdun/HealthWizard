@@ -14,6 +14,7 @@ const healthCareManagerRoutes = require('./routes/healthcareManagerRoutes');
 const Configuration = require('./models/configuration');
 const GlobalModel = require('./models/globalModel');
 const staffRoutes = require('./routes/hospitalStaffRoutes');
+const userRouter = require("./routes/userRouter.js");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -35,6 +36,14 @@ app.use(express.json());
     }
 })();
 
+app.use('/api/records', require('./routes/medRecRoutes.js'));
+
+//auth
+app.use("/api/user", userRouter);
+
+//Admin Routes
+app.use('/api/admin', require('./routes/adminRoutes.js'));
+
 //todo Squaash those users into 1 route
 app.use('/api/clients', patientRoutes);
 app.use('/api/appointments', appointmentRoutes);
@@ -42,11 +51,6 @@ app.use('/api/payments', paymentRoutes);
 app.use('/api/doctors', doctorRoutes); 
 app.use('/api/healthcaremanagers', healthCareManagerRoutes);
 app.use('/api/staff', staffRoutes); 
-app.use('/api/records', require('./routes/medRecRoutes.js'));
-
-//Admin Routes
-app.use('/api/admin', require('./routes/adminRoutes.js'));
-
 app.use(express.static(path.join(__dirname, "./client")));
 
 app.get("*", (req, res) => {
