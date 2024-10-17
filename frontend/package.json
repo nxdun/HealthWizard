@@ -28,10 +28,11 @@
     "@react-three/drei": "^9.109.1"
   },
   "scripts": {
-    "dev": "react-scripts start",
-    "build": "react-scripts build",
+    "dev": "vite",
+    "build": "vite build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start": "vite"
   },
   "eslintConfig": {
     "extends": [
@@ -52,6 +53,8 @@
     ]
   },
   "devDependencies": {
-    "tailwindcss": "^3.4.13"
+    "tailwindcss": "^3.4.13",
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.2.13"
   }
 }
