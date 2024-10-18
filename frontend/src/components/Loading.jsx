@@ -3,9 +3,7 @@ import "../styles/loading.css";
 
 function Loading() {
   return (
-    <div className="loading">
-      <div className="loader">Loading...</div>
-    </div>
+    <div class="loader"></div>
   );
 }
 

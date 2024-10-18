@@ -14,7 +14,7 @@ const healthCareManagerRoutes = require('./routes/healthcareManagerRoutes');
 const Configuration = require('./models/configuration');
 const GlobalModel = require('./models/globalModel');
 const staffRoutes = require('./routes/hospitalStaffRoutes');
-const userRouter = require("./routes/userRouter.js");
+const personRouter = require("./routes/personRouter.js");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -39,7 +39,7 @@ app.use(express.json());
 app.use('/api/records', require('./routes/medRecRoutes.js'));
 
 //auth
-app.use("/api/user", userRouter);
+app.use("/api/user", personRouter);
 
 //Admin Routes
 app.use('/api/admin', require('./routes/adminRoutes.js'));
