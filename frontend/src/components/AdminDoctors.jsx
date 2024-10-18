@@ -19,7 +19,7 @@ const AdminDoctors = () => {
   const getAllDoctors = async (e) => {
     try {
       dispatch(setLoading(true));
-      const temp = await fetchData(`/doctor/getalldoctors`);
+      const temp = await fetchData(`/doctors/`);
       setDoctors(temp);
       dispatch(setLoading(false));
     } catch (error) {}

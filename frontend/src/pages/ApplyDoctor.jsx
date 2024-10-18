@@ -1,24 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/contact.css";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import jwt_decode from "jwt-decode";
 
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_DOMAIN;
 
 const ApplyDoctor = () => {
   const navigate = useNavigate();
   const [formDetails, setFormDetails] = useState({
+    patientID: "",
     specialization: "",
-    experience: "",
     fees: "",
   });
 
+  // Set patientID from the decoded token
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decodedToken = jwt_decode(token);
+      console.log(decodedToken);
+      const patientID = decodedToken.personId; // Assuming 'userId' represents the patientID
+      setFormDetails((prevDetails) => ({ ...prevDetails, patientID }));
+    }
+  }, []);
+
   const inputChange = (e) => {
     const { name, value } = e.target;
-    return setFormDetails({
+    setFormDetails({
       ...formDetails,
       [name]: value,
     });
@@ -27,11 +39,14 @@ const ApplyDoctor = () => {
   const btnClick = async (e) => {
     e.preventDefault();
     try {
+      console.log(formDetails);
       await toast.promise(
         axios.post(
-          "/doctor/applyfordoctor",
+          "/doctors",
           {
-            formDetails,
+            patientID: formDetails.patientID,
+            specialization: formDetails.specialization,
+            fees: formDetails.fees,
           },
           {
             headers: {
@@ -48,7 +63,7 @@ const ApplyDoctor = () => {
 
       navigate("/");
     } catch (error) {
-      return error;
+      toast.error("An error occurred while submitting the form");
     }
   };
 
@@ -61,7 +76,7 @@ const ApplyDoctor = () => {
       >
         <div className="register-container flex-center contact">
           <h2 className="form-heading">Apply for Doctor</h2>
-          <form className="register-form ">
+          <form className="register-form">
             <input
               type="text"
               name="specialization"
@@ -72,17 +87,9 @@ const ApplyDoctor = () => {
             />
             <input
               type="number"
-              name="experience"
-              className="form-input"
-              placeholder="Enter your experience (in years)"
-              value={formDetails.experience}
-              onChange={inputChange}
-            />
-            <input
-              type="number"
               name="fees"
               className="form-input"
-              placeholder="Enter your fees  (in dollars)"
+              placeholder="Enter your fees (in dollars)"
               value={formDetails.fees}
               onChange={inputChange}
             />
@@ -91,7 +98,7 @@ const ApplyDoctor = () => {
               className="btn form-btn"
               onClick={btnClick}
             >
-              apply
+              Apply
             </button>
           </form>
         </div>

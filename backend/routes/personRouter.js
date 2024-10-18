@@ -9,5 +9,6 @@ personRouter.post("/register", personController.register); // Directly register 
 personRouter.post("/createadmin", personController.createAdmin); // Directly create admin
 personRouter.put("/updateprofile", personController.updateProfile);
 personRouter.delete("/deleteperson", personController.deletePerson);
+personRouter.post("/submitdoctorapplication", personController.submitDoctorApplication);
 
 module.exports = personRouter;

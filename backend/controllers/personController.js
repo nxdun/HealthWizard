@@ -131,6 +131,10 @@ const createAdmin = async (req, res) => {
   }
 };
 
+const submitDoctorApplication = async (req, res) => {
+  //set patient status to doctorpending
+};
+
 module.exports = {
   getPerson,
   getAllPersons,
@@ -138,5 +142,6 @@ module.exports = {
   register,
   updateProfile,
   deletePerson,
-  createAdmin
+  createAdmin,
+  submitDoctorApplication
 };
