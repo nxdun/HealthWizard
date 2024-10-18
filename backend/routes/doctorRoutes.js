@@ -15,6 +15,15 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/all', async (req, res) => {
+    try {
+        const doctors = await Doctor.find({ isDoctor: true });
+        res.json(doctors);
+    } catch (err) {
+        res.status(500).json({ message: 'Error retrieving doctors', error: err.message });
+    }
+});
+
 // Get a doctor by ID
 //route to fetch a specific doctor
 router.get('/:doctorID', async (req, res) => {
