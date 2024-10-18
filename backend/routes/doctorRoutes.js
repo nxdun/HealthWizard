@@ -42,7 +42,7 @@ router.get('/:doctorID', async (req, res) => {
 //route to create a new doctor
 router.post('/', async (req, res) => {
     try {
-        const { patientID, specialization, fees } = req.body;
+        const { patientID, specialization, experience, fees } = req.body;
 
         // Get patient data
         const patient = await Person.findOne({ _id: patientID });
@@ -69,6 +69,7 @@ router.post('/', async (req, res) => {
             lastname,
             dob,
             specialization,
+            experience,
             mobile,
             email,
             address,

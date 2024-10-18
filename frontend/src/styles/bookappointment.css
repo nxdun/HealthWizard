@@ -2,10 +2,10 @@
 
 .modal {
   position: absolute;
-  top: 0%;
+  top: 2%;
   left: 0%;
   width: 100%;
-  height: 99vh;
+  height: 115vh;
   /* background-color: rgba(0, 0, 0, 0.322); */
   z-index: 1;
 }
@@ -15,17 +15,35 @@
   flex-direction: column;
   align-items: center;
   gap: 2rem;
+  width: 50%;
+  height: 80%;
+  padding: 2rem;
+  /* border: 1px solid var(--light-blue); */
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.15); /* Transparent background for container */
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 0 8px 32px 0 rgba(101, 109, 223, 0.37); /* Soft shadow for depth */
+  backdrop-filter: blur(20px); /* Glass effect */
+  border: 1px solid rgba(24, 0, 245, 0.18); /* Light border */
+  position: relative;
+}
+.appoinment-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
   width: 30%;
   padding: 2rem;
-  border: 1px solid var(--light-blue);
-  border-radius: 10px;
-  color: var(--light-blue);
-  background-color: rgb(30, 55, 90);
-  position: relative;
+  background: rgba(124, 230, 2, 0.15); /* Transparent background for container */
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); /* Soft shadow for depth */
+  backdrop-filter: blur(10px); /* Glass effect */
+  border: 1px solid rgba(255, 255, 255, 0.18); /* Light border */
+  transition: all 0.3s ease;
 }
 
 .modal__content h2 {
-  color: var(--light-blue);
+  color: rgb(5, 5, 5);
+  margin-top: -30px;
 }
 
 .modal__content .btn {
@@ -42,5 +60,33 @@
 }
 
 .book {
-  width: 80%;
+  width: 90%;
 }
+
+.time-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+
+.time-btn {
+  background-color: #f0f0f0; /* Default background */
+  border: 1px solid #ccc; /* Default border */
+  border-radius: 4px;
+  margin: 0.5rem;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.time-btn:hover {
+  background-color: #e0e0e0; /* Hover background */
+}
+
+.time-btn.selected {
+  background-color: #007bff; /* Selected background */
+  color: white; /* Selected text color */
+  border: 1px solid #0056b3; /* Selected border color */
+  transform: scale(1.05); /* Slightly enlarge the selected button */
+}
+

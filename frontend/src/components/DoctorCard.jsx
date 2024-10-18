@@ -32,7 +32,7 @@ const DoctorCard = ({ ele }) => {
       </div>
       
       <h3 className="card-name">
-        Dr. {ele?.userId?.firstname + " " + ele?.userId?.lastname}
+        Dr. {ele?.firstname + " " + ele?.lastname}
       </h3>
 
       <p className="specialization">

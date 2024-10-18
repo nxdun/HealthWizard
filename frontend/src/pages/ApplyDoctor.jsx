@@ -14,6 +14,7 @@ const ApplyDoctor = () => {
   const [formDetails, setFormDetails] = useState({
     patientID: "",
     specialization: "",
+    experience: "",
     fees: "",
   });
 
@@ -46,6 +47,7 @@ const ApplyDoctor = () => {
           {
             patientID: formDetails.patientID,
             specialization: formDetails.specialization,
+            experience: formDetails.experience,
             fees: formDetails.fees,
           },
           {
@@ -83,6 +85,14 @@ const ApplyDoctor = () => {
               className="form-input"
               placeholder="Enter your specialization"
               value={formDetails.specialization}
+              onChange={inputChange}
+            />
+            <input
+              type="number"
+              name="experience"
+              className="form-input"
+              placeholder="Enter your experience (in years)"
+              value={formDetails.experience}
               onChange={inputChange}
             />
             <input

@@ -1,7 +1,10 @@
 @import url(app.css);
 
 footer {
-  background-color: var(--light-text-color);
+  background: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
+  backdrop-filter: blur(10px); /* Blur effect */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 0 20px 0 rgba(144, 174, 205, 0.339);
 }
 
 .footer {
@@ -15,7 +18,7 @@ footer {
 }
 
 .footer h3 {
-  color: var(--light-blue);
+  color: black;
   margin-bottom: 1rem;
   font-size: 1.2rem;
 }
@@ -83,6 +86,8 @@ footer {
 .footer-bottom a {
   color: var(--dark-blue);
 }
+
+
 
 @media screen and (max-width: 550px) {
   .social ul {

@@ -9,28 +9,8 @@ const Footer = () => {
     <>
       <footer>
         <div className="footer">
-          <div className="footer-links">
-            <h3>Links</h3>
-            <ul>
-              <li>
-                <NavLink to={"/"}>Home</NavLink>
-              </li>
-              <li>
-                <NavLink to={"/doctors"}>Doctors</NavLink>
-              </li>
-              <li>
-                <NavLink to={"/appointments"}>Appointments</NavLink>
-              </li>
-              <li>
-                <NavLink to={"/notifications"}>Notifications</NavLink>
-              </li>
-              <li>
-                <HashLink to={"/#contact"}>Contact Us</HashLink>
-              </li>
-              <li>
-                <NavLink to={"/profile"}>Profile</NavLink>
-              </li>
-            </ul>
+        <div className="rights">
+            <h3>&copy; 2024 All rights reserved</h3>
           </div>
           <div className="social">
             <h3>Social links</h3>

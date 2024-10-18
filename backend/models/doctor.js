@@ -8,6 +8,10 @@ const doctorSchema = new mongoose.Schema({
     isDoctor: { type: Boolean, default: false },
     doctorID: { type: String, required: true, unique: true },
     specialization: { type: String, required: true },
+    experience: {
+        type: Number,
+        required: true,
+      },
     fees: { type: String, required: true },
     appointments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Appointment' }]
 });

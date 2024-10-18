@@ -16,9 +16,10 @@ const Doctors = () => {
 
   const fetchAllDocs = async () => {
     dispatch(setLoading(true));
-    const data = await fetchData(`/doctor/getalldoctors`);
+    const data = await fetchData(`/doctors/all`);
     setDoctors(data);
     dispatch(setLoading(false));
+    console.log(data);
   };
 
   useEffect(() => {
