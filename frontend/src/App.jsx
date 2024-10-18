@@ -8,6 +8,7 @@ import React, { lazy, Suspense } from "react";
 import Loading from "./components/Loading";
 import './index.css';
 import HealthDashboard from "./pages/HealthDashboard";
+import AppointmentAnalyse from "./components/HealthManager/appoinmentAnalyse";
 
 const Home = lazy(() => import("./pages/Home"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -124,6 +125,7 @@ function App() {
           />
           <Route path="/HealthHome" element={<HealthHome />} />
           <Route path="/healthDashboard" element={<HealthDashboard />} />
+          <Route path="/healthDashboard/appoinmentAnalyse" element={<AppointmentAnalyse />} />
         </Routes>
       </Suspense>
     </Router>
