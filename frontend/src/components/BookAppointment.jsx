@@ -23,13 +23,13 @@ const BookAppointment = ({ setModalOpen, ele }) => {
       [name]: value,
     }));
   };
+
   const selectTime = (time) => {
     setFormDetails((prevDetails) => ({
       ...prevDetails,
       time, // Set selected time
     }));
   };
-
 
   const bookAppointment = async (e) => {
     e.preventDefault();
@@ -43,7 +43,7 @@ const BookAppointment = ({ setModalOpen, ele }) => {
         appointmentID: Date.now().toString(), // Unique appointment ID
         appointmentDate: new Date(`${formDetails.date}T${formDetails.time}`), // Combine date and time
         patientID: personId, // Use the userId from decoded token
-        doctorID: ele?.personId?._id, // Ensure this is correctly retrieved
+        doctorID: ele?._id, // Ensure this is correctly retrieved
         service: formDetails.service, // Set service from form
       };
 
@@ -72,6 +72,15 @@ const BookAppointment = ({ setModalOpen, ele }) => {
     }
   };
 
+  // Function to get today's date in 'YYYY-MM-DD' format
+  const getTodayDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   return (
     <div className="modal flex-center">
       <div className="modal__content">
@@ -90,6 +99,7 @@ const BookAppointment = ({ setModalOpen, ele }) => {
               className="form-input"
               value={formDetails.date}
               onChange={inputChange}
+              min={getTodayDate()} // Set the minimum date to today
               required // Optional: Use if you want to enforce field completion
             />
             <div className="time-selection">
