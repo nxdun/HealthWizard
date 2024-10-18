@@ -9,6 +9,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import jsPDF from 'jspdf'; // Import jsPDF for generating PDF reports
 import { format } from 'date-fns'; // Import format for date formatting
+import ServicePieChart from "./ServicePieChart";
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
@@ -17,8 +18,8 @@ const AppointmentAnalyse = () => {
   const [appointments, setAppointments] = useState([]);
   const [doctors, setDoctors] = useState([]); // State to hold doctors
   const [appointmentData, setAppointmentData] = useState([]);
-  const [startDate, setStartDate] = useState(new Date()); // Start date for filter
-  const [endDate, setEndDate] = useState(new Date()); // End date for filter
+  const [startDate, setStartDate] = useState(null); // Start date for filter (allow null for reset)
+  const [endDate, setEndDate] = useState(null); // End date for filter (allow null for reset)
   const [timeFrame, setTimeFrame] = useState("monthly"); // Default time frame
   const [selectedDoctorID, setSelectedDoctorID] = useState(""); // State for selected doctor ID
 
@@ -27,10 +28,10 @@ const AppointmentAnalyse = () => {
     fetchAppointments();
     fetchDoctors();
   }, []);
-
+  
   const fetchAppointments = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/appointments");
+      const response = await axios.get("http://localhost:5000/api/appointments/getall");
       setAppointments(response.data);
       processAppointmentData(response.data); // Process data initially
     } catch (error) {
@@ -52,11 +53,16 @@ const AppointmentAnalyse = () => {
   // Process appointments data for graph visualization
   const processAppointmentData = (appointments) => {
     const appointmentCount = {};
+    const now = new Date(); // Get current date
 
-    // Filter appointments based on the selected doctor ID
-    const filteredAppointments = appointments.filter(appointment => 
-      !selectedDoctorID || appointment.doctorID === selectedDoctorID
-    );
+    // Filter appointments by selected doctor and date range (if provided)
+    const filteredAppointments = appointments.filter(appointment => {
+      const appointmentDate = new Date(appointment.appointmentDate);
+      const isWithinRange = (!startDate || appointmentDate >= startDate) && (!endDate || appointmentDate <= endDate);
+
+      // Check if the appointment falls within the doctor filter and date range
+      return (!selectedDoctorID || appointment.doctorID === selectedDoctorID) && isWithinRange;
+    });
 
     // Group filtered appointments by the selected time frame
     filteredAppointments.forEach((appointment) => {
@@ -76,6 +82,16 @@ const AppointmentAnalyse = () => {
       }
       appointmentCount[key]++;
     });
+
+    // If reset, ensure we display all months (from January to December)
+    if (timeFrame === "monthly" && !startDate && !endDate) {
+      for (let i = 1; i <= 12; i++) {
+        const monthKey = `${now.getFullYear()}-${String(i).padStart(2, "0")}`;
+        if (!appointmentCount[monthKey]) {
+          appointmentCount[monthKey] = 0; // Ensure every month has a value
+        }
+      }
+    }
 
     // Sort the keys
     const sortedLabels = Object.keys(appointmentCount).sort();
@@ -109,13 +125,22 @@ const AppointmentAnalyse = () => {
     processAppointmentData(appointments); // Reprocess data based on new selection
   };
 
+  // Reset filters to defaults (including full monthly view)
+  const resetFilters = () => {
+    setSelectedDoctorID(""); // Reset selected doctor
+    setTimeFrame("monthly"); // Reset time frame to monthly
+    setStartDate(null); // Reset start date (null means show all months)
+    setEndDate(null); // Reset end date (null means show all months)
+    processAppointmentData(appointments); // Reprocess data with default filters
+  };
+
   // Generate PDF report
   const generateReport = () => {
     const doc = new jsPDF();
     const title = `Appointment Report (${timeFrame.charAt(0).toUpperCase() + timeFrame.slice(1)})`;
     doc.text(title, 10, 10);
     doc.text(`Selected Doctor: ${selectedDoctorID || "All Doctors"}`, 10, 20);
-    doc.text(`Date Range: ${startDate.toDateString()} - ${endDate.toDateString()}`, 10, 30);
+    doc.text(`Date Range: ${startDate ? startDate.toDateString() : "All"} - ${endDate ? endDate.toDateString() : "All"}`, 10, 30);
     
     let yOffset = 40;
     appointmentData.labels.forEach((label, index) => {
@@ -179,54 +204,65 @@ const AppointmentAnalyse = () => {
               </button>
             </div>
 
-            {/* Dropdown for doctors */}
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700">Select Doctor:</label>
+            {/* Doctor dropdown */}
+            <div className="flex justify-center mb-6">
               <select
+                value={selectedDoctorID}
                 onChange={handleDoctorChange}
                 className="border border-gray-300 rounded-md p-2"
-                value={selectedDoctorID}
               >
-                <option value="">All Doctors</option> {/* Option to view all doctors' appointments */}
+                <option value="">All Doctors</option>
                 {doctors.map((doctor) => (
-                  <option key={doctor._id} value={doctor._id}>
-                    {doctor.firstname} {doctor.lastname}
+                  <option key={doctor.id} value={doctor.id}>
+                    {doctor.firstName} {doctor.lastName}
                   </option>
                 ))}
               </select>
             </div>
 
-            {/* Graph */}
-            {appointmentData.labels ? (
-              <Line
-                data={appointmentData}
-                options={{
-                  responsive: true,
-                  plugins: {
-                    legend: {
-                      display: true,
-                      position: "top",
-                    },
-                    title: {
-                      display: true,
-                      text: `Appointments Count by ${timeFrame.charAt(0).toUpperCase() + timeFrame.slice(1)}`,
-                    },
-                  },
-                }}
-              />
-            ) : (
-              <p className="text-center text-gray-500">Loading graph...</p>
-            )}
-
-            {/* Generate Report Button */}
-            <div className="mt-4">
+            {/* Reset Filters Button */}
+            <div className="flex justify-center mb-6">
+              <button
+                onClick={resetFilters}
+                className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition duration-200"
+              >
+                Reset Filters
+              </button>
+            </div>
+                        {/* PDF Report Button */}
+                        <div className="flex justify-center mt-6">
               <button
                 onClick={generateReport}
                 className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition duration-200"
               >
-                Generate Report
+                Generate PDF Report
               </button>
             </div>
+
+            <div className="flex flex-col items-center mb-6">
+              {appointmentData && Array.isArray(appointmentData.labels) && appointmentData.labels.length > 0 ? (
+                <Line
+                  data={appointmentData}
+                  options={{
+                    responsive: true,
+                    plugins: {
+                      legend: {
+                        position: 'top',
+                      },
+                      title: {
+                        display: true,
+                        text: `Appointments Analysis (${timeFrame.charAt(0).toUpperCase() + timeFrame.slice(1)})`,
+                      },
+                    },
+                  }}
+                />
+              ) : (
+                <p>No appointment data available</p>
+              )}
+              <ServicePieChart appointmentData={appointments} />
+            </div>
+
+
           </ChartCard>
         </div>
       </section>

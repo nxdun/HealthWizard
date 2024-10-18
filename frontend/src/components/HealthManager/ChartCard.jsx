@@ -2,11 +2,11 @@
 import React from "react";
 
 const ChartCard = ({ children }) => {
-  return (
-    <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-4xl mx-auto">
-      {children}
-    </div>
-  );
-};
-
-export default ChartCard;
+    return (
+      <div className="bg-white rounded-lg shadow-md p-4 max-w-full overflow-hidden">
+        {children}
+      </div>
+    );
+  };
+  
+  export default ChartCard;
