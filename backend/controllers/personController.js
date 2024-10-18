@@ -39,7 +39,7 @@ const login = async (req, res) => {
     }
     //check if isDoctor is true if exists
     if ( emailPresent.isDoctor === false) {
-      return res.status(400).json({message: "Your application is still pending"});
+      return res.status(429).send("You are not a doctor, you cannot login");
     }
     const isAdmin = emailPresent.type === "Admin";
     const token = jwt.sign(
@@ -136,7 +136,7 @@ const createAdmin = async (req, res) => {
 };
 
 const submitDoctorApplication = async (req, res) => {
-  //set patient status to doctorpending
+  // dead method
 };
 
 module.exports = {

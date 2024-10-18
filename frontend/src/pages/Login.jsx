@@ -43,17 +43,18 @@ function Login() {
           password,
         }),
         {
-          pending: "Logging in...",
           success: "Login successfully",
           error: "Unable to login user",
-          loading: "Logging user...",
+          loading: "Logging in...",
         }
       );
+
       localStorage.setItem("token", data.token);
       dispatch(setUserInfo(jwt_decode(data.token).userId));
       getUser(jwt_decode(data.token).userId);
     } catch (error) {
-      toast.error(error.message);
+      console.log(error);
+      return error.message;
     }
   };
 

@@ -6,6 +6,7 @@ import { Toaster } from "react-hot-toast";
 import { Protected, Public, Admin } from "./middleware/route";
 import React, { lazy, Suspense } from "react";
 import Loading from "./components/Loading";
+import './index.css';
 
 const Home = lazy(() => import("./pages/Home"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -15,6 +16,7 @@ const Profile = lazy(() => import("./pages/Profile"));
 const Notifications = lazy(() => import("./pages/Notifications"));
 const ApplyDoctor = lazy(() => import("./pages/ApplyDoctor"));
 const Error = lazy(() => import("./pages/Error"));
+const Payment = lazy(() => import("./pages/Payment"));
 //hi
 function App() {
   return (
@@ -103,6 +105,14 @@ function App() {
             element={
               <Protected>
                 <Dashboard type={"applications"} />
+              </Protected>
+            }
+          />
+          <Route
+            path="/pay"
+            element={
+              <Protected>
+                <Payment />
               </Protected>
             }
           />
