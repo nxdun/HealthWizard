@@ -9,6 +9,7 @@ axios.defaults.baseURL = process.env.REACT_APP_SERVER_DOMAIN;
 
 function Register() {
   const [loading, setLoading] = useState(false);
+  const [file, setFile] = useState("");
   const [formDetails, setFormDetails] = useState({
     firstname: "",
     lastname: "",
@@ -27,6 +28,25 @@ function Register() {
       ...formDetails,
       [name]: value,
     });
+  };
+  const onUpload = async (element) => {
+    setLoading(true);
+    if (element.type === "image/jpeg" || element.type === "image/png") {
+      const data = new FormData();
+      data.append("file", element);
+      data.append("upload_preset", process.env.REACT_APP_CLOUDINARY_PRESET);
+      data.append("cloud_name", process.env.REACT_APP_CLOUDINARY_CLOUD_NAME);
+      fetch(process.env.REACT_APP_CLOUDINARY_BASE_URL, {
+        method: "POST",
+        body: data,
+      })
+        .then((res) => res.json())
+        .then((data) => setFile(data.url.toString()));
+      setLoading(false);
+    } else {
+      setLoading(false);
+      toast.error("Please select an image in jpeg or png format");
+    }
   };
 
   const formSubmit = async (e) => {
@@ -58,6 +78,7 @@ function Register() {
           dob,
           mobile,
           address,
+          pic: file,
         }),
         {
           pending: "Registering user...",
@@ -71,6 +92,7 @@ function Register() {
     }
   };
 
+  
   return (
     <>
       <ShaderCanvas />
@@ -126,6 +148,13 @@ function Register() {
               value={formDetails.address}
               onChange={inputChange}
             />
+            <input
+            type="file"
+            onChange={(e) => onUpload(e.target.files[0])}
+            name="profile-pic"
+            id="profile-pic"
+            className="form-input"
+          />
             <input
               type="password"
               name="password"

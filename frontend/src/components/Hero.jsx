@@ -8,7 +8,7 @@ const Hero = () => {
     <section className="hero">
       <div className="hero-content">
       <ShaderCanvas />
-        <h1 className="title-font sm:text-6xl text-5xl mb-4 font-medium text-blue-100">
+        <h1 className="title-font sm:text-6xl text-6xl mb-4 font-bold text-black">
         Your Well-Being, <br />
         Our Promise
         </h1>

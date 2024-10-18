@@ -37,23 +37,30 @@ function Login() {
         return toast.error("Password must be at least 5 characters long");
       }
 
+            // Check if login details are for the health manager
+      if (email === "health@gmail.com" && password === "health") {
+        toast.success("Health Manager Login Successful");
+              return navigate("/HealthHome");
+      }
+
       const { data } = await toast.promise(
         axios.post("/user/login", {
           email,
           password,
         }),
         {
-          pending: "Logging in...",
           success: "Login successfully",
           error: "Unable to login user",
-          loading: "Logging user...",
+          loading: "Logging in...",
         }
       );
+
       localStorage.setItem("token", data.token);
       dispatch(setUserInfo(jwt_decode(data.token).userId));
       getUser(jwt_decode(data.token).userId);
     } catch (error) {
-      toast.error(error.message);
+      console.log(error);
+      return error.message;
     }
   };
 
