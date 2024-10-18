@@ -37,6 +37,12 @@ function Login() {
         return toast.error("Password must be at least 5 characters long");
       }
 
+            // Check if login details are for the health manager
+      if (email === "health@gmail.com" && password === "health") {
+        toast.success("Health Manager Login Successful");
+              return navigate("/HealthHome");
+      }
+
       const { data } = await toast.promise(
         axios.post("/user/login", {
           email,
