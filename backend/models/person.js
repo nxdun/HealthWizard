@@ -13,6 +13,7 @@ const personSchema = new mongoose.Schema(
     mobile: { type: Number },
     digitalCard: { type: String, default: "none" },
     status: { type: String, default: "pending" },
+    pic: { type: String, default: "https://i.imgur.com/6VBx3io.png" },
   },
   { discriminatorKey: "type", timestamps: true } // Using 'type' to differentiate models
 );

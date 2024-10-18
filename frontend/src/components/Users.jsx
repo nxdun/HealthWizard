@@ -14,13 +14,15 @@ const Users = () => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.root);
 
-  const getAllUsers = async (e) => {
+  const getAllUsers = async () => {
     try {
       dispatch(setLoading(true));
-      const temp = await fetchData(`/user/getallusers`);
+      const temp = await fetchData(`/user/getallpersons`);
       setUsers(temp);
       dispatch(setLoading(false));
-    } catch (error) {}
+    } catch (error) {
+      toast.error("Failed to fetch users");
+    }
   };
 
   const deleteUser = async (userId) => {
@@ -29,25 +31,30 @@ const Users = () => {
       if (confirm) {
         await toast.promise(
           axios.delete("/user/deleteuser", {
-            headers: {
-              authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
             data: { userId },
           }),
           {
-            pending: "Deleting in...",
+            pending: "Deleting user...",
             success: "User deleted successfully",
             error: "Unable to delete user",
-            loading: "Deleting user...",
           }
         );
         getAllUsers();
       }
     } catch (error) {
-      return error;
+      toast.error("Failed to delete user");
     }
   };
 
+  const getRole = (user) => {
+    if (user.adminID) return "Admin";
+    if (user.patientID) return "Patient";
+    if (user.managerID) return "Healthcare Manager";
+    if (user.staffID) return "Staff";
+    return "Unknown";
+  };
+  
+//! dont remove brackets
   useEffect(() => {
     getAllUsers();
   }, []);
@@ -65,49 +72,35 @@ const Users = () => {
                 <thead>
                   <tr>
                     <th>S.No</th>
-                    <th>Pic</th>
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Email</th>
                     <th>Mobile No.</th>
-                    <th>Age</th>
-                    <th>Gender</th>
-                    <th>Is Doctor</th>
+                    <th>Role</th>
+                    <th>Address</th>
                     <th>Remove</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {users?.map((ele, i) => {
-                    return (
-                      <tr key={ele?._id}>
-                        <td>{i + 1}</td>
-                        <td>
-                          <img
-                            className="user-table-pic"
-                            src={ele?.pic}
-                            alt={ele?.firstname}
-                          />
-                        </td>
-                        <td>{ele?.firstname}</td>
-                        <td>{ele?.lastname}</td>
-                        <td>{ele?.email}</td>
-                        <td>{ele?.mobile}</td>
-                        <td>{ele?.age}</td>
-                        <td>{ele?.gender}</td>
-                        <td>{ele?.isDoctor ? "Yes" : "No"}</td>
-                        <td className="select">
-                          <button
-                            className="btn user-btn"
-                            onClick={() => {
-                              deleteUser(ele?._id);
-                            }}
-                          >
-                            Remove
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                  {users.map((user, i) => (
+                    <tr key={user._id}>
+                      <td>{i + 1}</td>
+                      <td>{user.firstname}</td>
+                      <td>{user.lastname}</td>
+                      <td>{user.email}</td>
+                      <td>{user.mobile}</td>
+                      <td>{getRole(user)}</td>
+                      <td>{user.address}</td>
+                      <td className="select">
+                        <button
+                          className="btn user-btn"
+                          onClick={() => deleteUser(user._id)}
+                        >
+                          Remove
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

@@ -37,8 +37,9 @@ const login = async (req, res) => {
     if (!verifyPass) {
       return res.status(400).send("Incorrect credentials");
     }
+    const isAdmin = emailPresent.type === "Admin";
     const token = jwt.sign(
-      { personId: emailPresent._id },
+      { personId: emailPresent._id, isAdmin },
       process.env.JWT_SECRET,
       {
         expiresIn: "2 days",
@@ -50,12 +51,21 @@ const login = async (req, res) => {
   }
 };
 
+//random id generated for patient
+const generateRandomID = (prefix) => {
+  const randomNumber = Math.floor(100000 + Math.random() * 900000); // Generates a random 6-digit number
+  return `${prefix}${randomNumber}`;
+};
+
 const register = async (req, res) => {
   try {
     const emailPresent = await Person.findOne({ email: req.body.email });
     if (emailPresent) {
       return res.status(400).send("Email already exists");
     }
+
+    //note : can be added to global conig file
+    req.body.patientID = generateRandomID("PAT"); // Generate a random patient ID
     const hashedPass = await bcrypt.hash(req.body.password, 10);
     const patient = new Patient({ ...req.body, password: hashedPass });
     const result = await patient.save();
