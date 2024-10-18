@@ -53,7 +53,7 @@ function Login() {
       dispatch(setUserInfo(jwt_decode(data.token).userId));
       getUser(jwt_decode(data.token).userId);
     } catch (error) {
-      return error;
+      toast.error(error.message);
     }
   };
 

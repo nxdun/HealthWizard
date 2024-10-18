@@ -47,11 +47,23 @@ const Users = () => {
   };
 
   const getRole = (user) => {
-    if (user.adminID) return "Admin";
-    if (user.patientID) return "Patient";
-    if (user.managerID) return "Healthcare Manager";
-    if (user.staffID) return "Staff";
-    return "Unknown";
+    switch (true) {
+      case !!user.adminID:
+        return "Admin";
+      case !!user.patientID:
+        return "Patient";
+      case !!user.managerID:
+        return "Healthcare Manager";
+      case !!user.staffID:
+        return "Staff";
+      //if isDoctor is false then user is pending doctor
+      case !!user.isDoctor:
+        return "(Pending)Doctor";
+      case !!user.doctorID:
+        return "Doctor";
+      default:
+        return "Unknown";
+    }
   };
   
 //! dont remove brackets

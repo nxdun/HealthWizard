@@ -15,31 +15,32 @@ const AdminDoctors = () => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.root);
 
-  //get all doctors
-  const getAllDoctors = async (e) => {
+  // Get all doctors with filtering based on isDoctor flag
+  const getAllDoctors = async () => {
     try {
       dispatch(setLoading(true));
       const temp = await fetchData(`/doctors/`);
-      setDoctors(temp);
+      // Filter doctors where isDoctor is true
+      const filteredDoctors = temp.filter((doctor) => doctor.isDoctor);
+      setDoctors(filteredDoctors);
       dispatch(setLoading(false));
-    } catch (error) {}
+    } catch (error) {
+      dispatch(setLoading(false));
+      toast.error("Failed to fetch doctors");
+    }
   };
 
-  //delete doctor
-  const deleteUser = async (userId) => {
+  // Delete doctor
+  const deleteUser = async (doctorID) => {
     try {
       const confirm = window.confirm("Are you sure you want to delete?");
       if (confirm) {
         await toast.promise(
-          axios.put(
-            "/doctor/deletedoctor",
-            { userId },
-            {
-              headers: {
-                authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            }
-          ),
+          axios.delete(`/doctors/${doctorID}`, {
+            headers: {
+              authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }),
           {
             success: "Doctor deleted successfully",
             error: "Unable to delete Doctor",
@@ -49,7 +50,7 @@ const AdminDoctors = () => {
         getAllDoctors();
       }
     } catch (error) {
-      return error;
+      toast.error("Error deleting doctor");
     }
   };
 
@@ -82,37 +83,33 @@ const AdminDoctors = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {doctors?.map((ele, i) => {
-                    return (
-                      <tr key={ele?._id}>
-                        <td>{i + 1}</td>
-                        <td>
-                          <img
-                            className="user-table-pic"
-                            src={ele?.userId?.pic}
-                            alt={ele?.userId?.firstname}
-                          />
-                        </td>
-                        <td>{ele?.userId?.firstname}</td>
-                        <td>{ele?.userId?.lastname}</td>
-                        <td>{ele?.userId?.email}</td>
-                        <td>{ele?.userId?.mobile}</td>
-                        <td>{ele?.experience}</td>
-                        <td>{ele?.specialization}</td>
-                        <td>{ele?.fees}</td>
-                        <td className="select">
-                          <button
-                            className="btn user-btn"
-                            onClick={() => {
-                              deleteUser(ele?.userId?._id);
-                            }}
-                          >
-                            Remove
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                  {doctors.map((doctor, i) => (
+                    <tr key={doctor._id}>
+                      <td>{i + 1}</td>
+                      <td>
+                        <img
+                          className="user-table-pic"
+                          src={doctor.pic || "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"}
+                          alt={doctor.firstname || "No Image"}
+                        />
+                      </td>
+                      <td>{doctor.firstname || "N/A"}</td>
+                      <td>{doctor.lastname || "N/A"}</td>
+                      <td>{doctor.email || "N/A"}</td>
+                      <td>{doctor.mobile ? doctor.mobile.toString() : "N/A"}</td>
+                      <td>{doctor.experience || "N/A"}</td>
+                      <td>{doctor.specialization || "N/A"}</td>
+                      <td>{doctor.fees || "N/A"}</td>
+                      <td className="select">
+                        <button
+                          className="btn user-btn"
+                          onClick={() => deleteUser(doctor.doctorID)}
+                        >
+                          Remove
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

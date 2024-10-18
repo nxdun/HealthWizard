@@ -37,6 +37,10 @@ const login = async (req, res) => {
     if (!verifyPass) {
       return res.status(400).send("Incorrect credentials");
     }
+    //check if isDoctor is true if exists
+    if ( emailPresent.isDoctor === false) {
+      return res.status(400).json({message: "Your application is still pending"});
+    }
     const isAdmin = emailPresent.type === "Admin";
     const token = jwt.sign(
       { personId: emailPresent._id, isAdmin },
