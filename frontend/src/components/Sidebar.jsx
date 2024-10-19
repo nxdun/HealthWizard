@@ -6,6 +6,7 @@ import {
   FaUserMd,
   FaUsers,
   FaEnvelope,
+  FaUserPlus,
 } from "react-icons/fa";
 import { LuFileJson2 } from "react-icons/lu";
 import "../styles/sidebar.css";
@@ -33,6 +34,11 @@ const Sidebar = () => {
       name: "\u00A0 Doctors",
       path: "/dashboard/doctors",
       icon: <FaUserMd />,
+    },
+    {
+      name: "\u00A0 Add Hospital Staff",
+      path: "/dashboard/add-hospital-staff",
+      icon: <FaUserPlus />,
     },
     {
       name: "\u00A0 Appointments",
