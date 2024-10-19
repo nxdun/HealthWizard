@@ -86,7 +86,7 @@ function RegisterStaffMember() {
           error: "Unable to register user",
         }
       );
-      return navigate("/login");
+      return navigate("/dashboard/add-hospital-staff");
     } catch (error) {
       toast.error("An error occurred during registration");
     }
@@ -98,7 +98,7 @@ function RegisterStaffMember() {
       <ShaderCanvas />
       <section className="register-section flex-center">
         <div className="register-container flex-center">
-          <h2 className="form-heading">Sign Up</h2>
+          <h2 className="form-heading">Register Staff Member</h2>
           <form onSubmit={formSubmit} className="register-form">
             <input
               type="text"
@@ -176,15 +176,9 @@ function RegisterStaffMember() {
               className="btn form-btn"
               disabled={loading ? true : false}
             >
-              Sign up
+              Register Staff Member
             </button>
           </form>
-          <p>
-            Already a user?{" "}
-            <NavLink className="login-link" to={"/login"}>
-              Log in
-            </NavLink>
-          </p>
         </div>
       </section>
     </>

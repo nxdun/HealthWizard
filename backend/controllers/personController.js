@@ -1,6 +1,7 @@
 const Person = require("../models/person");
 const Patient = require("../models/patient");
 const Health = require("../models/healthcareManager");
+const Staff = require("../models/hospitalStaffMember");
 const Admin = require("../models/admin");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -126,14 +127,14 @@ const registerStaff = async (req, res) => {
     }
 
     //note : can be added to global conig file
-    req.body.patientID = generateRandomID("SAT"); // Generate a random patient ID
+    req.body.StaffMemberID = generateRandomID("SAT"); // Generate a random patient ID
     const hashedPass = await bcrypt.hash(req.body.password, 10);
-    const patient = new Patient({ ...req.body, password: hashedPass });
-    const result = await patient.save();
+    const staff = new Staff({ ...req.body, password: hashedPass });
+    const result = await staff.save();
     if (!result) {
-      return res.status(500).send("Unable to register patient");
+      return res.status(500).send("Unable to register Staff");
     }
-    return res.status(201).send("Patient registered successfully");
+    return res.status(201).send("Staff registered successfully");
   } catch (error) {
     res.status(500).send(error);
   }

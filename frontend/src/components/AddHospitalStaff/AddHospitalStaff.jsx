@@ -34,7 +34,7 @@ const AddHospitalStaff = () => {
         <NavLink to="/dashboard/add-health-manager" className="flex items-center justify-center w-full bg-blue-600 text-white py-3 rounded-lg shadow hover:bg-blue-700 transition duration-300 mb-3">
           <FaUserPlus className="mr-2" /> Add Health Manager
         </NavLink>
-        <NavLink to="/dashboard/add-staff" className="flex items-center justify-center w-full bg-blue-600 text-white py-3 rounded-lg shadow hover:bg-blue-700 transition duration-300">
+        <NavLink to="/dashboard/add-staff-member" className="flex items-center justify-center w-full bg-blue-600 text-white py-3 rounded-lg shadow hover:bg-blue-700 transition duration-300">
           <FaUsers className="mr-2" /> Add Staff
         </NavLink>
       </div>
