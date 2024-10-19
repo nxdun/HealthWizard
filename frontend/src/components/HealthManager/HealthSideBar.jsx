@@ -7,14 +7,13 @@ import {
   FaUsers,
   FaEnvelope,
 } from "react-icons/fa";
-import { LuFileJson2 } from "react-icons/lu";
-import "../styles/sidebar.css";
+import "../../styles/sidebar.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { MdLogout } from "react-icons/md";
 import { useDispatch } from "react-redux";
-import { setUserInfo } from "../redux/reducers/rootSlice";
+import { setUserInfo } from "../../redux/reducers/rootSlice";
 
-const Sidebar = () => {
+const HealthSideBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -25,42 +24,11 @@ const Sidebar = () => {
       icon: <FaHome />,
     },
     {
-      name: "\u00A0 Users",
-      path: "/dashboard/users",
+      name: "\u00A0 Appoinments",
+      path: "/healthDashboard/appoinmentAnalyse",
       icon: <FaUsers />,
     },
-    {
-      name: "\u00A0 Doctors",
-      path: "/dashboard/doctors",
-      icon: <FaUserMd />,
-    },
-    {
-      name: "\u00A0 Appointments",
-      path: "/dashboard/appointments",
-      icon: <FaList />,
-    },
-    {
-      name: "\u00A0 Applications",
-      path: "/dashboard/applications",
-      icon: <FaEnvelope />,
-    },
-    {
-      name: "\u00A0 Configurations",
-      path: "/dashboard/config",
-      icon: <LuFileJson2 />,
-    },
-    {
-      name: "\u00A0 Profile",
-      path: "/profile",
-      icon: <FaUser />,
-    },
   ];
-
-  const logoutFunc = () => {
-    dispatch(setUserInfo({}));
-    localStorage.removeItem("token");
-    navigate("/login");
-  };
 
   return (
     <>
@@ -78,7 +46,7 @@ const Sidebar = () => {
           </ul>
           <div className="logout-container">
             <MdLogout />
-            <p onClick={logoutFunc}>Logout</p>
+            <p>Logout</p>
           </div>
         </div>
       </section>
@@ -86,4 +54,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default HealthSideBar;

@@ -45,6 +45,16 @@ router.get('/getPatientAppointments/:patientID', async (req, res) => {
     }
 });
 
+// Get all appointments
+router.get('/getall', async (req, res) => {
+    try {
+        const appointments = await Appointment.find(); 
+        res.json(appointments);
+    } catch (err) {
+        res.status(500).json({ message: 'Error retrieving appointments.', error: err.message });
+    }
+});
+
 
 // Get an appointment by ID
 router.get('/:appointmentID',  async (req, res) => {
