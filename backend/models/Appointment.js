@@ -6,20 +6,18 @@ const Patient = require('./patient'); // Make sure to import your Patient model
 const appointmentSchema = new mongoose.Schema({
     appointmentID: { type: String, required: true, unique: true },
     appointmentDate: { type: Date, required: true },
-    patientID: { type: mongoose.Schema.Types.ObjectId, ref: 'Patient', required: true }, // Change here
-    doctorID: { type: mongoose.Schema.Types.ObjectId, ref: 'Doctor', required: true }, // Change here
+    patientID: { type: mongoose.Schema.Types.ObjectId, ref: 'Patient', required: true },
+    doctorID: { type: mongoose.Schema.Types.ObjectId, ref: 'Doctor', required: true },
     service: { type: String, required: true },
     price: { type: Number, default: 0 },
     status: { 
         type: String, 
         enum: ['Scheduled', 'Completed', 'Canceled', 'Rescheduled', 'Pending', 'NoShow'], 
-        default: 'Pending' // Default status set to Pending
+        default: 'Pending' 
     }
-},
-{
-  timestamps: true,
-}
-);
+}, {
+    timestamps: true,
+});
 
 // Instance methods
 appointmentSchema.methods.scheduleAppointment = function (date, time) {
@@ -37,5 +35,7 @@ appointmentSchema.methods.cancelAppointment = function () {
     return this.save();
 };
 
-const Appointment = mongoose.model('Appointment', appointmentSchema);
+// Prevent OverwriteModelError
+const Appointment = mongoose.models.Appointment || mongoose.model('Appointment', appointmentSchema);
+
 module.exports = Appointment;
