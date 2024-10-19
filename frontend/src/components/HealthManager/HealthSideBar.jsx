@@ -1,11 +1,7 @@
 import React from "react";
 import {
   FaHome,
-  FaList,
-  FaUser,
-  FaUserMd,
   FaUsers,
-  FaEnvelope,
 } from "react-icons/fa";
 import "../../styles/sidebar.css";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -20,15 +16,21 @@ const HealthSideBar = () => {
   const sidebar = [
     {
       name: "\u00A0 Home",
-      path: "/",
+      path: "/HealthHome",
       icon: <FaHome />,
     },
     {
-      name: "\u00A0 Appoinments",
+      name: "\u00A0 Appointments",
       path: "/healthDashboard/appoinmentAnalyse",
       icon: <FaUsers />,
     },
   ];
+
+  const handleLogout = () => {
+    // Dispatch logout action or clear user info if needed
+    dispatch(setUserInfo(null)); // Assuming this resets user info
+    navigate("/"); // Navigate to home page
+  };
 
   return (
     <>
@@ -44,7 +46,7 @@ const HealthSideBar = () => {
               );
             })}
           </ul>
-          <div className="logout-container">
+          <div className="logout-container" onClick={handleLogout}>
             <MdLogout />
             <p>Logout</p>
           </div>

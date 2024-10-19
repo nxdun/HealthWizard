@@ -44,6 +44,7 @@ const AppointmentAnalyse = () => {
       const response = await axios.get("http://localhost:5000/api/user/getallpersons");
       // Filter doctors from the response data
       const filteredDoctors = response.data.filter(user => user.type === "Doctor");
+      console.log("Filtered Doctors:", filteredDoctors);
       setDoctors(filteredDoctors);
     } catch (error) {
       console.error("Error fetching doctors:", error);
@@ -160,27 +161,8 @@ const AppointmentAnalyse = () => {
           <ChartCard>
             <h2 className="text-2xl font-bold text-center mb-4">Appointment Analysis</h2>
 
-            {/* Date range picker */}
-            <div className="flex justify-center items-center space-x-4 mb-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Start Date:</label>
-                <DatePicker
-                  selected={startDate}
-                  onChange={(date) => setStartDate(date)}
-                  dateFormat="yyyy-MM-dd"
-                  className="border border-gray-300 rounded-md p-2"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">End Date:</label>
-                <DatePicker
-                  selected={endDate}
-                  onChange={(date) => setEndDate(date)}
-                  dateFormat="yyyy-MM-dd"
-                  className="border border-gray-300 rounded-md p-2"
-                />
-              </div>
-            </div>
+
+
 
             {/* Time frame buttons */}
             <div className="flex justify-center space-x-4 mb-6">
@@ -204,21 +186,23 @@ const AppointmentAnalyse = () => {
               </button>
             </div>
 
-            {/* Doctor dropdown */}
-            <div className="flex justify-center mb-6">
+{/* Doctor dropdown */}
+<div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700">Select Doctor:</label>
               <select
-                value={selectedDoctorID}
                 onChange={handleDoctorChange}
                 className="border border-gray-300 rounded-md p-2"
+                value={selectedDoctorID}
               >
-                <option value="">All Doctors</option>
+                <option value="">All Doctors</option> {/* Option to view all doctors' appointments */}
                 {doctors.map((doctor) => (
-                  <option key={doctor.id} value={doctor.id}>
-                    {doctor.firstName} {doctor.lastName}
+                  <option key={doctor._id} value={doctor._id}>
+                    {doctor.firstname} {doctor.lastname}
                   </option>
                 ))}
               </select>
             </div>
+
 
             {/* Reset Filters Button */}
             <div className="flex justify-center mb-6">
@@ -240,27 +224,29 @@ const AppointmentAnalyse = () => {
             </div>
 
             <div className="flex flex-col items-center mb-6">
-              {appointmentData && Array.isArray(appointmentData.labels) && appointmentData.labels.length > 0 ? (
-                <Line
-                  data={appointmentData}
-                  options={{
-                    responsive: true,
-                    plugins: {
-                      legend: {
+    {appointmentData && Array.isArray(appointmentData.labels) && appointmentData.labels.length > 0 ? (
+        <Line
+            data={appointmentData}
+            options={{
+                responsive: true,
+                plugins: {
+                    legend: {
                         position: 'top',
-                      },
-                      title: {
+                    },
+                    title: {
                         display: true,
                         text: `Appointments Analysis (${timeFrame.charAt(0).toUpperCase() + timeFrame.slice(1)})`,
-                      },
                     },
-                  }}
-                />
-              ) : (
-                <p>No appointment data available</p>
-              )}
-              <ServicePieChart appointmentData={appointments} />
-            </div>
+                },
+            }}
+            width={600}
+            height={400}
+        />
+    ) : (
+        <p>No appointment data available</p>
+    )}
+    <ServicePieChart appointmentData={appointments} size={600} /> {/* Change size here */}
+</div>
 
 
           </ChartCard>
