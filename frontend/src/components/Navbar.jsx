@@ -51,9 +51,12 @@ const Navbar = () => {
               <li>
                 <NavLink to={"/notifications"}>Notifications</NavLink>
               </li>
-              <li>
-                <NavLink to={"/applyfordoctor"}>Apply for doctor</NavLink>
-              </li>
+              {/* Show Apply for Doctor only for users with the patient role */}
+              {user.role === "patient" && (
+                <li>
+                  <NavLink to={"/applyfordoctor"}>Apply for doctor</NavLink>
+                </li>
+              )}
               <li>
                 <HashLink to={"/#contact"}>Contact Us</HashLink>
               </li>
@@ -65,28 +68,19 @@ const Navbar = () => {
           {!token ? (
             <>
               <li>
-                <NavLink
-                  className="btn"
-                  to={"/login"}
-                >
+                <NavLink className="btn" to={"/login"}>
                   Login
                 </NavLink>
               </li>
               <li>
-                <NavLink
-                  className="btn"
-                  to={"/register"}
-                >
+                <NavLink className="btn" to={"/register"}>
                   Register
                 </NavLink>
               </li>
             </>
           ) : (
             <li>
-              <span
-                className="btn"
-                onClick={logoutFunc}
-              >
+              <span className="btn" onClick={logoutFunc}>
                 Logout
               </span>
             </li>
