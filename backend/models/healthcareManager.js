@@ -14,18 +14,6 @@ healthManagerSchema.methods.createAccount = async function () {
   }
 };
 
-// healthManagerSchema.methods.updateAccount = async function (updateData) {
-//   try {
-//     Object.assign(this, updateData);
-//     return await this.save();
-//   } catch (err) {
-//     throw new Error("Error updating account: " + err.message);
-//   }
-// };
-
-// healthManagerSchema.methods.viewMedicalRecords = function () {
-//   return this.medicalHistory;
-// };
 
 const Health = Person.discriminator("Health", healthManagerSchema);
 module.exports = Health;
