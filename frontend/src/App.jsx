@@ -109,6 +109,14 @@ function App() {
             }
           />
           <Route
+          path="/dashboard/config"
+          element={
+            <Protected>
+              <Dashboard type={"config"} />
+            </Protected>
+          }
+        />
+          <Route
             path="/pay"
             element={
               <Protected>

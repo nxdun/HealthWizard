@@ -7,13 +7,14 @@ import {
   FaUsers,
   FaEnvelope,
 } from "react-icons/fa";
+import { LuFileJson2 } from "react-icons/lu";
 import "../styles/sidebar.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { MdLogout } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { setUserInfo } from "../redux/reducers/rootSlice";
 
-const               Sidebar = () => {
+const Sidebar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -42,6 +43,11 @@ const               Sidebar = () => {
       name: "\u00A0 Applications",
       path: "/dashboard/applications",
       icon: <FaEnvelope />,
+    },
+    {
+      name: "\u00A0 Configurations",
+      path: "/dashboard/config",
+      icon: <LuFileJson2 />,
     },
     {
       name: "\u00A0 Profile",

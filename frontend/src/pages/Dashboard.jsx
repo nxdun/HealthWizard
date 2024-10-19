@@ -5,6 +5,7 @@ import AdminDoctors from "../components/AdminDoctors";
 import Sidebar from "../components/Sidebar";
 import Users from "../components/Users";
 import ShaderCanvas from "../components/ShaderCanvas";
+import Config from "../components/Config.jsx";
 
 const Dashboard = (props) => {
   const { type } = props;
@@ -22,6 +23,8 @@ const Dashboard = (props) => {
             <AdminApplications />
           ) : type === "appointments" ? (
             <AdminAppointments />
+          ) : type === "config" ? (
+            <Config />
           ) : (
             <></>
           )}
