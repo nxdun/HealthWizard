@@ -5,139 +5,103 @@ import Navbar from "../components/Navbar";
 import fetchData from "../helper/apiCall";
 import { setLoading } from "../redux/reducers/rootSlice";
 import Loading from "../components/Loading";
-import { useDispatch, useSelector } from "react-redux";
 import jwt_decode from "jwt-decode";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import "../styles/user.css";
 
 const Appointments = () => {
-  const [appointments, setAppointments] = useState([]);
-  const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.root);
-  const { userId } = jwt_decode(localStorage.getItem("token"));
+    const [appointments, setAppointments] = useState([]);
+    const dispatch = useDispatch();
+    const { loading } = useSelector((state) => state.root);
 
-  const getAllAppoint = async (e) => {
-    try {
-      dispatch(setLoading(true));
-      const temp = await fetchData(
-        `/appointment/getallappointments?search=${userId}`
-      );
-      setAppointments(temp);
-      dispatch(setLoading(false));
-    } catch (error) {}
-  };
+    // Decode the token to get personId
+    const token = localStorage.getItem("token");
+    const { personId } = token ? jwt_decode(token) : { personId: null };
 
-  useEffect(() => {
-    getAllAppoint();
-  }, []);
-
-  const complete = async (ele) => {
-    try {
-      await toast.promise(
-        axios.put(
-          "/appointment/completed",
-          {
-            appointid: ele?._id,
-            doctorId: ele?.doctorId?._id,
-            doctorname: `${ele?.userId?.firstname} ${ele?.userId?.lastname}`,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        ),
-        {
-          success: "Appointment booked successfully",
-          error: "Unable to book appointment",
-          loading: "Booking appointment...",
+    const getPatientAppointments = async () => {
+        if (!personId) {
+            toast.error("User not found. Please log in.");
+            return;
         }
-      );
 
-      getAllAppoint();
-    } catch (error) {
-      return error;
-    }
-  };
+        try {
+            dispatch(setLoading(true));
+            // Fetch appointments filtered by personId (which is patientId)
+            const temp = await fetchData(`/appointments/getPatientAppointments/${personId}`);
+            if (Array.isArray(temp)) {
+                setAppointments(temp);
+            } else {
+                setAppointments([]); // If it's not an array, set it to an empty array
+            }
+            dispatch(setLoading(false));
+        } catch (error) {
+            dispatch(setLoading(false));
+            console.error("Error fetching appointments:", error);
+            toast.error("Failed to fetch appointments. Please try again later.");
+        }
+    };
 
-  return (
-    <>
-      <Navbar />
-      {loading ? (
-        <Loading />
-      ) : (
-        <section className="container notif-section">
-          <h2 className="page-heading">Your Appointments</h2>
+    useEffect(() => {
+        getPatientAppointments();
+    }, []);
 
-          {appointments.length > 0 ? (
-            <div className="appointments">
+    return (
+        <>
+            <Navbar />
+            {loading ? (
+                <Loading />
+            ) : (
+                <section className="container notif-section">
+                    <h2 className="page-heading">Your Appointments</h2>
 
-              <table>
-                <thead>
-                  <tr>
-                    <th>S.No</th>
-                    <th>Doctor Name</th>
-                    <th>Patient Name</th>
-                    <th>Appointment Date</th>
-                    <th>Appointment Time</th>
-                    <th>Booking Date</th>
-                    <th>Booking Time</th>
-                    <th>Status</th>
-                    {userId === appointments[0].doctorId?._id ? (
-                      <th>Action</th>
+                    {appointments.length > 0 ? (
+                        <div className="appointments">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>S.No</th>
+                                        <th>Doctor Name</th>
+                                        <th>Patient Name</th>
+                                        <th>Appointment Date</th>
+                                        <th>Appointment Time</th>
+                                        <th>Booking Date</th>
+                                        <th>Booking Time</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {appointments.map((ele, i) => (
+                                        <tr key={ele?._id}>
+                                            <td>{i + 1}</td>
+                                            <td>
+                                                {ele?.doctorID?.firstname && ele?.doctorID?.lastname
+                                                    ? `${ele.doctorID.firstname} ${ele.doctorID.lastname}`
+                                                    : "N/A"}
+                                            </td>
+                                            <td>
+                                                {ele?.patientID?.firstname && ele?.patientID?.lastname
+                                                    ? `${ele.patientID.firstname} ${ele.patientID.lastname}`
+                                                    : "N/A"}
+                                            </td>
+                                            <td>{new Date(ele?.appointmentDate).toLocaleDateString()}</td>
+                                            <td>{new Date(ele?.appointmentDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+                                            <td>{new Date(ele?.createdAt).toLocaleDateString()}</td>
+                                            <td>{new Date(ele?.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+                                            <td>{ele?.status}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     ) : (
-                      <></>
+                        <Empty />
                     )}
-                  </tr>
-                </thead>
-                <tbody>
-                  {appointments?.map((ele, i) => {
-                    return (
-                      <tr key={ele?._id}>
-                        <td>{i + 1}</td>
-                        <td>
-                          {ele?.doctorId?.firstname +
-                            " " +
-                            ele?.doctorId?.lastname}
-                        </td>
-                        <td>
-                          {ele?.userId?.firstname + " " + ele?.userId?.lastname}
-                        </td>
-                        <td>{ele?.date}</td>
-                        <td>{ele?.time}</td>
-                        <td>{ele?.createdAt.split("T")[0]}</td>
-                        <td>{ele?.updatedAt.split("T")[1].split(".")[0]}</td>
-                        <td>{ele?.status}</td>
-                        {userId === ele?.doctorId?._id ? (
-                          <td>
-                            <button
-                              className={`btn user-btn accept-btn ${
-                                ele?.status === "Completed" ? "disable-btn" : ""
-                              }`}
-                              disabled={ele?.status === "Completed"}
-                              onClick={() => complete(ele)}
-                            >
-                              Complete
-                            </button>
-                          </td>
-                        ) : (
-                          <></>
-                        )}
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-              
-            </div>
-          ) : (
-            <Empty />
-          )}
-        </section>
-      )}
-      <Footer />
-    </>
-  );
+                </section>
+            )}
+            <Footer />
+        </>
+    );
 };
+
 export default Appointments;
