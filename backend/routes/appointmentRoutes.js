@@ -54,7 +54,7 @@ router.get('/getPatientAppointments/:patientID', async (req, res) => {
     try {
         const { patientID } = req.params;
         const appointments = await Appointment.find({ patientID })
-            .populate('doctorID', 'firstname lastname') // Populating doctor details
+            .populate('doctorID', 'firstname lastname fees') // Populating doctor details
             .populate('patientID', 'firstname lastname'); // Populating patient details
 
         res.json(appointments);

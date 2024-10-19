@@ -57,6 +57,14 @@ const Navbar = () => {
                   <NavLink to={"/applyfordoctor"}>Apply for doctor</NavLink>
                 </li>
               )}
+              {/* Show Check Patient Appointments only for users with the staff role */}
+              {user.role === "staff" && (
+                <li>
+                  <NavLink to={"/checkappointments"}>
+                    Check Patient Appointments
+                  </NavLink>
+                </li>
+              )}
               <li>
                 <HashLink to={"/#contact"}>Contact Us</HashLink>
               </li>

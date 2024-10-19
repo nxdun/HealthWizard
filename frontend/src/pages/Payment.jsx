@@ -73,7 +73,7 @@ const Payment = () => {
         });
   
         // Handle backend validation errors
-        if (response.status === 400 && response.data.message === "Card type not allowed to use.") {
+        if (response.status === 400 && response.data.message === "Payment method not allowed for this hospital type.") {
           setError("Card type not allowed for this hospital.");
         } else if (response.status === 400) {
           setError(response.data.message);
@@ -171,7 +171,7 @@ const Payment = () => {
               </button>
               <button
                 className="text-gray-600 underline text-lg mt-2"
-                onClick={() => setStep(1)}
+                onClick={() => {window.location.href = "/appointments";}}
               >
                 Go Back
               </button>
