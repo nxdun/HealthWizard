@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-
+import "../styles/user.css";
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_DOMAIN;
 
 const ConfigurationEditor = () => {
@@ -14,8 +14,8 @@ const ConfigurationEditor = () => {
   const fetchConfig = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("/api/admin/");
-      const configData = response.data.find(c => c.key === "healthwizard");
+      const response = await axios.get("/admin");
+      const configData = response.data.find((c) => c.key === "healthwizard");
       setConfig(configData);
       setLoading(false);
     } catch (error) {
@@ -26,27 +26,25 @@ const ConfigurationEditor = () => {
 
   // Handle Input Changes
   const handleInputChange = (e, field) => {
-    const { name, value } = e.target;
-    setConfig({
-      ...config,
+    const { name, value, type, checked } = e.target;
+    const newValue = type === "checkbox" ? checked : value;
+    setConfig((prevConfig) => ({
+      ...prevConfig,
       settings: {
-        ...config.settings,
-        [field]: {
-          ...config.settings[field],
-          [name]: value
-        }
-      }
-    });
+        ...prevConfig.settings,
+        [name]: newValue,
+      },
+    }));
   };
 
   // Save Configuration
   const saveConfig = async () => {
     try {
       setLoading(true);
-      await axios.put(`/api/admin/${config._id}`, config);
+      await axios.put(`/admin/${config.key}`, config);
       toast.success("Configuration updated successfully");
       setLoading(false);
-      navigate("/admin/healthwizard");
+      navigate("/dashboard/config");
     } catch (error) {
       toast.error("Failed to update configuration");
       setLoading(false);
@@ -57,19 +55,32 @@ const ConfigurationEditor = () => {
     fetchConfig();
   }, []);
 
-  if (loading) return <div className="text-center mt-10">Loading...</div>;
+  if (loading)
+    return (
+      <div class="flex-col gap-4 w-full flex items-center justify-center">
+        <div class="w-20 h-20 border-4 border-transparent text-blue-400 text-4xl animate-spin flex items-center justify-center border-t-blue-400 rounded-full">
+          <div class="w-16 h-16 border-4 border-transparent text-red-400 text-2xl animate-spin flex items-center justify-center border-t-red-400 rounded-full"></div>
+        </div>
+      </div>
+    );
 
-  if (!config) return <div className="text-center mt-10">No Configuration Found</div>;
+  if (!config)
+    return <div className="text-center mt-10">No Configuration Found</div>;
 
   return (
-    <section className="p-6 bg-gray-100">
-      <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
-        <h2 className="text-2xl font-semibold mb-4">Edit HealthWizard Configuration</h2>
+    <section className="user-section">
+      <div className="wid mx-auto max-w-3xl bg-white shadow-md rounded-lg p-6">
+        <h2 className="text-2xl font-semibold mb-4">
+          Edit HealthWizard Configuration
+        </h2>
         <form>
           {/* Site Name */}
           <div className="mb-4">
-            <label htmlFor="siteName" className="block text-gray-700 font-bold mb-2">
-              Site Name:
+            <label
+              htmlFor="siteName"
+              className="block text-gray-700 font-bold mb-2"
+            >
+              Web Site Name:
             </label>
             <input
               type="text"
@@ -83,14 +94,17 @@ const ConfigurationEditor = () => {
 
           {/* Enable Feature X */}
           <div className="mb-4">
-            <label htmlFor="enableFeatureX" className="block text-gray-700 font-bold mb-2">
+            <label
+              htmlFor="enableFeatureX"
+              className="block text-gray-700 font-bold mb-2"
+            >
               Enable Feature X:
             </label>
             <input
               type="checkbox"
               id="enableFeatureX"
               name="enableFeatureX"
-              checked={config.settings.enableFeatureX}
+              checked={config.settings.enableFeatureX || false}
               onChange={(e) => handleInputChange(e, "settings")}
               className="w-5 h-5"
             />
@@ -98,14 +112,17 @@ const ConfigurationEditor = () => {
 
           {/* Enable Feature Y */}
           <div className="mb-4">
-            <label htmlFor="enableFeatureY" className="block text-gray-700 font-bold mb-2">
-              Enable Feature Y:
+            <label
+              htmlFor="enableFeatureY"
+              className="block text-gray-700 font-bold mb-2"
+            >
+              Enable Payments:
             </label>
             <input
               type="checkbox"
               id="enableFeatureY"
               name="enableFeatureY"
-              checked={config.settings.enableFeatureY}
+              checked={config.settings.enableFeatureY || false}
               onChange={(e) => handleInputChange(e, "settings")}
               className="w-5 h-5"
             />
@@ -113,7 +130,9 @@ const ConfigurationEditor = () => {
 
           {/* Payment Methods */}
           <div className="mb-4">
-            <label className="block text-gray-700 font-bold mb-2">Payment Methods:</label>
+            <label className="block text-gray-700 font-bold mb-2">
+              Payment Methods:
+            </label>
             <textarea
               className="w-full px-3 py-2 border rounded-md"
               name="paymentMethods"

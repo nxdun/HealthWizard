@@ -58,9 +58,9 @@ const Users = () => {
         return "Staff";
       //if isDoctor is false then user is pending doctor
       case !!user.isDoctor:
-        return "(Pending)Doctor";
-      case !!user.doctorID:
         return "Doctor";
+      case !!user.doctorID:
+        return "(Unverified)Doctor";
       default:
         return "Unknown";
     }
