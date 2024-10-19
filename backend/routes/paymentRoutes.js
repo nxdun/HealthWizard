@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { CreditCardPayment, InsurancePayment } = require('../models/paymentStrategy');
+const { CreditCardPayment, InsurancePayment, GovernmentPayment } = require('../models/paymentStrategy');
 const GlobalModel = require('../models/globalModel');
 const HospitalTypeFactory = require('../models/hospitalFactory');
 
@@ -20,9 +20,6 @@ router.post('/process', async (req, res) => {
         // Get allowed payment methods from the hospital
         const allowedPaymentMethods = hospital.getAllowedPaymentMethods();
 
-        // Check if the selected payment method is allowed
-        console.log("allowd", allowedPaymentMethods);
-        console.log(paymentMethod);
         if (!allowedPaymentMethods.includes(paymentMethod)) {
             return res.status(400).json({ message: 'Payment method not allowed for this hospital type.' });
         }
@@ -33,6 +30,8 @@ router.post('/process', async (req, res) => {
             paymentStrategy = new CreditCardPayment();
         } else if (paymentMethod === 'Insurance') {
             paymentStrategy = new InsurancePayment();
+        }   else if (paymentMethod === 'Government') {
+            paymentStrategy = new GovernmentPayment();
         } else {
             return res.status(400).json({ message: 'Unsupported payment method.' });
         }
@@ -40,14 +39,7 @@ router.post('/process', async (req, res) => {
         // Process the payment
         paymentStrategy.processPayment(amount);
 
-        // Save the transaction details to the database (example logic)
-        // Assume `Payment` is a Mongoose model for storing payment records.
-        // const paymentRecord = await Payment.create({
-        //     hospitalType,
-        //     paymentMethod,
-        //     amount,
-        //     status: 'Completed'
-        // });
+
 
         res.status(200).json({
             status: 'success',
@@ -60,5 +52,6 @@ router.post('/process', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+
 
 module.exports = router;
