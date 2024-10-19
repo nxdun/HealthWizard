@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import ShaderCanvas from "../components/ShaderCanvas";
 import axios from "axios";
@@ -6,11 +6,38 @@ import axios from "axios";
 const Payment = () => {
   const [step, setStep] = useState(1);
   const [paymentType, setPaymentType] = useState("");
-  const [hospitalType, setHospitalType] = useState("Private"); // Default hospital type
+  const [hospitalType, setHospitalType] = useState(""); // Default hospital type
   const [amount, setAmount] = useState(49.99); // Fake price for now
   const [loading, setLoading] = useState(false);
   const [resultMessage, setResultMessage] = useState("");
   const [error, setError] = useState(null);
+  const [appointmentId, setAppointmentId] = useState(null);
+
+
+  // Read query parameters from URL
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const appointmentId = params.get("appointmentId");
+    const price = params.get("price");
+    const hospitalType = params.get("location");
+
+    if (price) {
+      setAmount(parseFloat(price));
+    }
+
+    if (appointmentId) {
+      setAppointmentId(appointmentId);
+    }
+
+    if (hospitalType) {
+      setHospitalType(hospitalType);
+    }
+
+    if (hospitalType === "undefined") {
+      setHospitalType("Private");
+      }
+  
+  }, []);
 
   // Handle payment type selection
   const handlePaymentSelection = (type) => {
@@ -24,53 +51,51 @@ const Payment = () => {
     setError(null);
     setResultMessage("");
   
-    try {
-      // Validate payment method with the backend
-      console.log("log", hospitalType, paymentType, amount);
-      const response = await axios.post("/payments/process", {
-        hospitalType,
-        paymentMethod: paymentType,
-        amount,
-      });
+    // Mock payment outcome before sending to the server
+    const outcome = prompt(
+      `Mock Payment for ${paymentType}. Choose an outcome: 
+      - 's' for Successful
+      - 'c' for Cancelled
+      - 'e' for Error`
+    ).toLowerCase();
   
-      // Handle backend validation errors
-      if (response.status === 400 && response.data.message === "Card type not allowed to use.") {
-        setError("Card type not allowed for this hospital.");
-        setLoading(false);
-        setStep(3);
-        return;
-      }
+    if (outcome === "s") {
+      try {
+        // Log payment details for debugging
+        console.log("log", hospitalType, paymentType, amount, appointmentId);
   
-      if (response.status === 400) {
-        setError(response.data.message);
-        setLoading(false);
-        setStep(3);
-        return;
-      }
+        // Send the request to the backend only for successful payment
+        const response = await axios.post("/payments/process", {
+          hospitalType,
+          paymentMethod: paymentType,
+          amount,
+          appointmentId,
+        });
   
-      // If the response indicates success
-      if (response.status === 200) {
-        // Mock payment outcome
-        const outcome = prompt(
-          `Mock Payment for ${paymentType}. What do you want to do? (s for Successful, c for Cancelled, e for Error)`
-        ).toLowerCase();
-  
-        if (outcome === "s") {
-          setResultMessage(
-            `Payment of $${amount} using ${paymentType} was successful.`
-          );
-        } else if (outcome === "c") {
-          setError("Payment was cancelled.");
-        } else if (outcome === "e") {
-          setError("An error occurred while processing the payment.");
-        } else {
-          setError("Invalid mock outcome. Please choose 's', 'c', or 'e'.");
+        // Handle backend validation errors
+        if (response.status === 400 && response.data.message === "Card type not allowed to use.") {
+          setError("Card type not allowed for this hospital.");
+        } else if (response.status === 400) {
+          setError(response.data.message);
+        } else if (response.status === 200) {
+          // If payment is processed successfully by the backend
+          setResultMessage(`Payment of $${amount} using ${paymentType} was successful.`);
         }
+      } catch (err) {
+        setError("Failed to process payment. Please try again.");
       }
-    } catch (err) {
-      setError("Failed to process payment. Please try again.");
+    } else if (outcome === "c") {
+      // Handle cancelled payment locally
+      setError("Payment was cancelled.");
+    } else if (outcome === "e") {
+      // Handle error case locally
+      setError("An error occurred while processing the payment.");
+    } else {
+      // Handle invalid input for mock outcome
+      setError("Invalid mock outcome. Please choose 's', 'c', or 'e'.");
     }
   
+    // Final steps after processing
     setLoading(false);
     setStep(3);
   };

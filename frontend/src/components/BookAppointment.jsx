@@ -14,6 +14,7 @@ const BookAppointment = ({ setModalOpen, ele }) => {
     date: "",
     time: "",
     service: "", // Add service field to state
+    location: "", // Add location field to state
   });
 
   const inputChange = (e) => {
@@ -45,6 +46,7 @@ const BookAppointment = ({ setModalOpen, ele }) => {
         patientID: personId, // Use the userId from decoded token
         doctorID: ele?._id, // Ensure this is correctly retrieved
         service: formDetails.service, // Set service from form
+        location: formDetails.location, // Set location from form
       };
 
       console.log("Appointment Data:", appointmentData); // Log the data
@@ -131,7 +133,35 @@ const BookAppointment = ({ setModalOpen, ele }) => {
               <option value="Physical Therapy">Physical Therapy</option>
               <option value="Cardiology">Cardiology</option>
               <option value="Pediatrics">Pediatrics</option>
+              <option value="Orthopedics">Orthopedics</option>
+              <option value="Neurology">Neurology</option>
+              <option value="Dermatology">Dermatology</option>
+              <option value="Gynecology">Gynecology</option>
+              <option value="Ophthalmology">Ophthalmology</option>
               {/* Add more service options as needed */}
+            </select>
+
+            {/* New Location Selection */}
+            <select
+              name="location"
+              className="form-input"
+              value={formDetails.location}
+              onChange={inputChange}
+              required // Optional: Use if you want to enforce field completion
+            >
+              <option value="" disabled>Where Do You Want To Book</option>
+              <option value="Government">Sri Jayawardanapura General Hospital</option>
+              <option value="Government">National Hospital of Sri Lanka -colombo</option>
+              <option value="Government">National Hospital - Kandy</option>
+              <option value="Government">Vasana Hospital</option>
+              <option value="Government">Lady Ridgeway Hospital for Children</option>
+              <option value="Government">Nawaloka Hospitals PLC</option>
+              <option value="Private">The Lanka Hospitals Corporation PLC</option>
+              <option value="Private">Kings Hospital Colombo</option>
+              <option value="Private">Hemas Hospital Wattala</option>
+              <option value="Private">Dr. Neville Fernando Teaching Hospital</option>
+              <option value="Private">Ninewells Hospital (Pvt) Ltd.</option>
+              <option value="Private">Joseph Fraser Memorial Hospital</option>
             </select>
             <button type="submit" className="btn form-btn">
               Book

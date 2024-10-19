@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import "../styles/doctorapply.css";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_DOMAIN;
 
@@ -14,6 +15,19 @@ function DoctorApply() {
     timing: "Timing",
   });
 
+  const [isDoctor, setIsDoctor] = useState(false);
+
+  // Check if the user is a doctor
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decoded = jwt_decode(token);
+      if (decoded.role === "doctor") {
+        setIsDoctor(true); // User is a doctor
+      }
+    }
+  }, []);
+
   const inputChange = (e) => {
     const { name, value } = e.target;
     return setFormDetails({
@@ -22,7 +36,7 @@ function DoctorApply() {
     });
   };
 
-  //form submission
+  // form submission
   const formSubmit = async (e) => {
     try {
       e.preventDefault();
@@ -34,7 +48,6 @@ function DoctorApply() {
       const { data } = await toast.promise(
         axios.post(
           "/doctor/applyfordoctor",
-
           {
             specialization,
             experience,
@@ -49,7 +62,7 @@ function DoctorApply() {
         ),
         {
           pending: "Submitting application...",
-          success: "Thank You for submitting the apllication.",
+          success: "Thank you for submitting the application.",
           error: "Unable to submit application",
           loading: "Submitting application...",
         }
@@ -59,9 +72,8 @@ function DoctorApply() {
     }
   };
 
-
-  //display form
-  return (
+  // Conditionally render the form only if the user is not a doctor
+  return !isDoctor ? (
     <section className="apply-doctor-section flex-center">
       <div className="apply-doctor-container flex-center">
         <h2 className="form-heading">Apply For Doctor</h2>
@@ -89,7 +101,6 @@ function DoctorApply() {
             placeholder="Enter your fees per consultation in rupees"
             value={formDetails.fees}
             onChange={inputChange}
-            defaultChecked="Timings"
           />
           <select
             name="timing"
@@ -110,6 +121,8 @@ function DoctorApply() {
         </form>
       </div>
     </section>
+  ) : (
+    <p>You have already applied as a doctor.</p> // Message if the user is a doctor
   );
 }
 
