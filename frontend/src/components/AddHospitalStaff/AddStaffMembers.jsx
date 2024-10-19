@@ -70,7 +70,7 @@ function RegisterStaffMember() {
       }
 
       await toast.promise(
-        axios.post("/user/registerStaff", {
+        axios.post("/addStaff/registerStaff", {
           firstname,
           lastname,
           email,

@@ -70,7 +70,7 @@ function RegisterHealthManager() {
       }
 
       await toast.promise(
-        axios.post("/user/registerHealth", {
+        axios.post("/addStaff/registerHealth", {
           firstname,
           lastname,
           email,

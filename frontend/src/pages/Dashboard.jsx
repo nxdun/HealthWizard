@@ -31,8 +31,8 @@ const Dashboard = (props) => {
             <AddHospitalStaff />
           ) : type === "AddHealthManager" ? (
             <RegisterHealthManager />
-          ) : type === "AddHealthManager" ? (
-            <RegisterHealthManager />
+          ) : type === "AddStaffMember" ? (
+            <RegisterStaffMember />
           )  : type === "AllStaffMembers" ? (
             <AllStaffMembers />
           ) : type === "config" ? (
