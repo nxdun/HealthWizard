@@ -38,6 +38,8 @@ const login = async (req, res) => {
       role = "doctor";
     } else if (emailPresent.patientID) {
       role = "patient";
+    } else if (emailPresent.managerID) {
+      role = "manager";
     } else {
       role = "invalid";
     }

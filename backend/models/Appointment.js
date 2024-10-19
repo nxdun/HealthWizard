@@ -10,9 +10,10 @@ const appointmentSchema = new mongoose.Schema({
     doctorID: { type: mongoose.Schema.Types.ObjectId, ref: 'Doctor', required: true }, // Change here
     service: { type: String, required: true },
     price: { type: Number, default: 0 },
+    location: { type: String },
     status: { 
         type: String, 
-        enum: ['Scheduled', 'Completed', 'Canceled', 'Rescheduled', 'Pending', 'NoShow'], 
+        enum: ['Scheduled', 'Completed', 'Canceled', 'Rescheduled', 'Pending', 'NoShow', 'paid'], 
         default: 'Pending' // Default status set to Pending
     }
 },
