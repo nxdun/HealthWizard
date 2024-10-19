@@ -27,6 +27,20 @@ const getAllPersons = async (req, res) => {
 const login = async (req, res) => {
   try {
     const emailPresent = await Person.findOne({ email: req.body.email });
+
+    //if person having entry "emailPresent.adminID" set role as admin in jwt
+    //if person having entry "emailPresent.doctorID" set role as doctor in jwt
+    //if person having entry "emailPresent.patientID" set role as patient in jwt
+    let role;
+    if (emailPresent.adminID) {
+      role = "admin";
+    } else if (emailPresent.doctorID) {
+      role = "doctor";
+    } else if (emailPresent.patientID) {
+      role = "patient";
+    } else {
+      role = "invalid";
+    }
     if (!emailPresent) {
       return res.status(400).send("Incorrect credentials");
     }
@@ -38,12 +52,12 @@ const login = async (req, res) => {
       return res.status(400).send("Incorrect credentials");
     }
     //check if isDoctor is true if exists
-    if ( emailPresent.isDoctor === false) {
+    if (emailPresent.isDoctor === false) {
       return res.status(429).send("You are not a doctor, you cannot login");
     }
     const isAdmin = emailPresent.type === "Admin";
     const token = jwt.sign(
-      { personId: emailPresent._id, isAdmin },
+      { personId: emailPresent._id, isAdmin, role },
       process.env.JWT_SECRET,
       {
         expiresIn: "2 days",
@@ -147,5 +161,5 @@ module.exports = {
   updateProfile,
   deletePerson,
   createAdmin,
-  submitDoctorApplication
+  submitDoctorApplication,
 };

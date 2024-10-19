@@ -125,7 +125,7 @@ router.delete('/:appointmentID', async (req, res) => {
 });
 
 // Additional route to update status
-router.patch('/:appointmentID/status', async (req, res) => {
+router.patch('/s/:appointmentID', async (req, res) => {
     try {
         const { status } = req.body; // Expect status to be sent in request body
         const validStatuses = ['Scheduled', 'Completed', 'Canceled', 'Rescheduled', 'Pending', 'NoShow'];

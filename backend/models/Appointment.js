@@ -9,6 +9,7 @@ const appointmentSchema = new mongoose.Schema({
     patientID: { type: mongoose.Schema.Types.ObjectId, ref: 'Patient', required: true }, // Change here
     doctorID: { type: mongoose.Schema.Types.ObjectId, ref: 'Doctor', required: true }, // Change here
     service: { type: String, required: true },
+    price: { type: Number, default: 0 },
     status: { 
         type: String, 
         enum: ['Scheduled', 'Completed', 'Canceled', 'Rescheduled', 'Pending', 'NoShow'], 
