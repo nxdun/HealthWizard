@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import Empty from "../components/Empty";
 import Footer from "../components/Footer";
@@ -37,7 +38,7 @@ const Appointments = () => {
             
             // Dynamically use different API endpoints based on role
             const endpoint = role === "doctor"
-                ? `/appointments/getPatientAppointments2/${personId}` // For doctors
+                ? `/appointments/getDoctorAppointments/${personId}` // For doctors
                 : `/appointments/getPatientAppointments/${personId}`; // For patients
 
             // Fetch appointments filtered by personId (which is patientId)
@@ -58,6 +59,7 @@ const Appointments = () => {
 
     useEffect(() => {
         getPatientAppointments();
+    
     }, [role]); // Dependency on the role so it changes if the role changes
 
     // Open modal to update appointment status (for doctors)
