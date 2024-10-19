@@ -3,7 +3,7 @@ const Patient = require("../models/patient");
 const Admin = require("../models/admin");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
+const Staff = require("../models/hospitalStaff");
 const getPerson = async (req, res) => {
   try {
     const person = await Person.findById(req.params.id).select("-password");
@@ -40,6 +40,8 @@ const login = async (req, res) => {
       role = "patient";
     } else if (emailPresent.managerID) {
       role = "manager";
+    } else if (emailPresent.staffID) {
+      role = "staff";
     } else {
       role = "invalid";
     }
@@ -77,6 +79,36 @@ const generateRandomID = (prefix) => {
   return `${prefix}${randomNumber}`;
 };
 
+//wprking staff register method
+const registerbackup = async (req, res) => {
+  try {
+    const emailPresent = await Person.findOne({ email: req.body.email });
+    if (emailPresent) {
+      return res.status(400).send("Email already exists");
+    }
+
+    //note : can be added to global conig file
+    req.body.staffID = generateRandomID("STAFF"); // Generate a random patient ID
+    const staffRole = "Cashier";
+    const department = "Billing";
+
+    const hashedPass = await bcrypt.hash(req.body.password, 10);
+    const patient = new Staff({
+      ...req.body,
+      staffRole,
+      department,
+      password: hashedPass,
+    });
+    const result = await patient.save();
+    if (!result) {
+      return res.status(500).send("Unable to register staff");
+    }
+    return res.status(201).send("staff registered successfully");
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 const register = async (req, res) => {
   try {
     const emailPresent = await Person.findOne({ email: req.body.email });
@@ -86,6 +118,7 @@ const register = async (req, res) => {
 
     //note : can be added to global conig file
     req.body.patientID = generateRandomID("PAT"); // Generate a random patient ID
+
     const hashedPass = await bcrypt.hash(req.body.password, 10);
     const patient = new Patient({ ...req.body, password: hashedPass });
     const result = await patient.save();

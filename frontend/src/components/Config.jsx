@@ -25,9 +25,28 @@ const ConfigurationEditor = () => {
   };
 
   // Handle Input Changes
-  const handleInputChange = (e, field) => {
-    const { name, value, type, checked } = e.target;
-    const newValue = type === "checkbox" ? checked : value;
+  // Handle Input Changes
+const handleInputChange = (e, field) => {
+  const { name, value, type, checked } = e.target;
+  const newValue = type === "checkbox" ? checked : value;
+
+  // Handle paymentMethods as JSON
+  if (name === "paymentMethods") {
+    let parsedValue;
+    try {
+      parsedValue = JSON.parse(newValue); // Try to parse the input
+    } catch (error) {
+      toast.error("Invalid JSON format for payment methods");
+      return; // Exit if the JSON is not valid
+    }
+    setConfig((prevConfig) => ({
+      ...prevConfig,
+      settings: {
+        ...prevConfig.settings,
+        paymentMethods: parsedValue, // Save parsed JSON as object
+      },
+    }));
+  } else {
     setConfig((prevConfig) => ({
       ...prevConfig,
       settings: {
@@ -35,7 +54,9 @@ const ConfigurationEditor = () => {
         [name]: newValue,
       },
     }));
-  };
+  }
+};
+
 
   // Save Configuration
   const saveConfig = async () => {

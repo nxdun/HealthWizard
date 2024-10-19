@@ -20,6 +20,7 @@ const ApplyDoctor = lazy(() => import("./pages/ApplyDoctor"));
 const Error = lazy(() => import("./pages/Error"));
 const Payment = lazy(() => import("./pages/Payment"));
 const HealthHome = lazy(() => import("./pages/HealthHome"));
+const CheckAppointments = lazy(() => import("./pages/CheckAppointments.jsx"));
 //hi
 function App() {
   return (
@@ -126,7 +127,14 @@ function App() {
                 <Payment />
               </Protected>
             }
-          />
+          /> <Route
+          path="/checkappointments"
+          element={
+            <Protected>
+              <CheckAppointments />
+            </Protected>
+          }
+        />
           <Route
             path="*"
             element={<Error />}
