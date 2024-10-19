@@ -5,6 +5,7 @@ const Appointment = require('../models/Appointment');
 const Doctor = require('../models/doctor');
 const Person = require('../models/person');
 const Patient = require('../models/patient');
+const AppointmentFactory = require('./appointmentFactory'); 
 
 //add common validations for validateAppointment middleware
 const validateAppointment = (req, res, next) => {
@@ -88,28 +89,15 @@ router.get('/:appointmentID',  async (req, res) => {
 });
 
 // Create a new appointment
-router.post('/',validateAppointment,async (req, res) => {
+router.post('/', validateAppointment, async (req, res) => {
     try {
-        const { appointmentID, appointmentDate, patientID, doctorID, service, location } = req.body;
-
-        const newAppointment = new Appointment({
-            appointmentID,
-            appointmentDate,
-            patientID,
-            doctorID,
-            service,
-            location
-        });
-
-        //get price from doctor
-        const doctor = await Doctor.findOne({ _id: doctorID });
-        newAppointment.price = doctor.fees;
+        const appointmentData = req.body;
+        const newAppointment = AppointmentFactory.createAppointment(appointmentData); // Use the factory
 
         await newAppointment.save();
-        // Return success message along with the created appointment
         res.status(201).json({
             message: "Appointment created successfully!",
-            appointment: newAppointment // Optionally include the created appointment
+            appointment: newAppointment
         });
     } catch (err) {
         res.status(500).json({ message: 'Error creating appointment.', error: err.message });

@@ -24,7 +24,7 @@ const DoctorCard = ({ ele }) => {
         
         <img
           src={
-            ele?.userId?.pic ||
+            ele?.pic ||
             "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
           }
           alt="profile"
