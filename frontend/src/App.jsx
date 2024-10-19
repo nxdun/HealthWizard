@@ -7,6 +7,8 @@ import { Protected, Public, Admin } from "./middleware/route";
 import React, { lazy, Suspense } from "react";
 import Loading from "./components/Loading";
 import './index.css';
+import HealthDashboard from "./pages/HealthDashboard";
+import AppointmentAnalyse from "./components/HealthManager/appoinmentAnalyse";
 
 const Home = lazy(() => import("./pages/Home"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -17,6 +19,7 @@ const Notifications = lazy(() => import("./pages/Notifications"));
 const ApplyDoctor = lazy(() => import("./pages/ApplyDoctor"));
 const Error = lazy(() => import("./pages/Error"));
 const Payment = lazy(() => import("./pages/Payment"));
+const HealthHome = lazy(() => import("./pages/HealthHome"));
 //hi
 function App() {
   return (
@@ -128,6 +131,9 @@ function App() {
             path="*"
             element={<Error />}
           />
+          <Route path="/HealthHome" element={<HealthHome />} />
+          <Route path="/healthDashboard" element={<HealthDashboard />} />
+          <Route path="/healthDashboard/appoinmentAnalyse" element={<AppointmentAnalyse />} />
         </Routes>
       </Suspense>
     </Router>

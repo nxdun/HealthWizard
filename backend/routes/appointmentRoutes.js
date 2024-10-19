@@ -2,6 +2,9 @@
 const express = require('express');
 const router = express.Router();
 const Appointment = require('../models/Appointment');
+const Doctor = require('../models/doctor');
+const Person = require('../models/person');
+const Patient = require('../models/patient');
 
 //add common validations for validateAppointment middleware
 const validateAppointment = (req, res, next) => {
@@ -14,15 +17,29 @@ const validateAppointment = (req, res, next) => {
     next();
 };
 
-// Get all appointments
-router.get('/', async (req, res) => {
+
+// Get all appointments with doctor and patient details
+router.get('/getallappointments', async (req, res) => {
     try {
-        const appointments = await Appointment.find();
+        const appointments = await Appointment.find()
+            .populate('doctorID', 'firstname lastname') // Fetch doctor details
+            .populate('patientID', 'firstname lastname'); // Fetch patient details
         res.json(appointments);
     } catch (err) {
         res.status(500).json({ message: 'Error retrieving appointments.', error: err.message });
     }
 });
+
+// Get all appointments
+router.get('/getall', async (req, res) => {
+    try {
+        const appointments = await Appointment.find(); 
+        res.json(appointments);
+    } catch (err) {
+        res.status(500).json({ message: 'Error retrieving appointments.', error: err.message });
+    }
+});
+
 
 // Get an appointment by ID
 router.get('/:appointmentID',  async (req, res) => {

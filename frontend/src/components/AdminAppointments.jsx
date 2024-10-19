@@ -15,13 +15,21 @@ const AdminAppointments = () => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.root);
 
-  const getAllAppoint = async (e) => {
+  const getAllAppoint = async () => {
     try {
       dispatch(setLoading(true));
-      const temp = await fetchData(`/appointment/getallappointments`);
-      setAppointments(temp);
+      const temp = await fetchData("/appointments/getallappointments");
+      console.log(temp); // Log the response to inspect its structure
+      if (Array.isArray(temp)) {
+        setAppointments(temp);
+      } else {
+        setAppointments([]); // If it's not an array, set it to an empty array
+      }
       dispatch(setLoading(false));
-    } catch (error) {}
+    } catch (error) {
+      dispatch(setLoading(false));
+      console.error("Error fetching appointments:", error);
+    }
   };
 
   useEffect(() => {
@@ -35,8 +43,8 @@ const AdminAppointments = () => {
           "/appointment/completed",
           {
             appointid: ele?._id,
-            doctorId: ele?.doctorId._id,
-            doctorname: `${ele?.userId?.firstname} ${ele?.userId?.lastname}`,
+            doctorId: ele?.doctorID._id, // Ensure this matches your data structure
+            doctorname: `${ele?.doctorID?.firstname} ${ele?.doctorID?.lastname}`, // Use populated data
           },
           {
             headers: {
@@ -45,15 +53,15 @@ const AdminAppointments = () => {
           }
         ),
         {
-          success: "Appointment booked successfully",
-          error: "Unable to book appointment",
-          loading: "Booking appointment...",
+          success: "Appointment marked as completed successfully",
+          error: "Unable to mark appointment as completed",
+          loading: "Updating appointment status...",
         }
       );
 
       getAllAppoint();
     } catch (error) {
-      return error;
+      console.error("Error completing appointment:", error);
     }
   };
 
@@ -63,8 +71,8 @@ const AdminAppointments = () => {
         <Loading />
       ) : (
         <section className="user-section">
-          <h3 className="home-sub-heading">All Users</h3>
-          {appointments.length > 0 ? (
+          <h3 className="home-sub-heading">All Appointments</h3>
+          {Array.isArray(appointments) && appointments.length > 0 ? (
             <div className="user-container">
               <table>
                 <thead>
@@ -77,33 +85,28 @@ const AdminAppointments = () => {
                     <th>Booking Date</th>
                     <th>Booking Time</th>
                     <th>Status</th>
-
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {appointments?.map((ele, i) => {
+                  {appointments.map((ele, i) => {
+                    const appointmentDate = new Date(ele.appointmentDate);
+                    const createdAtDate = new Date(ele.createdAt).toLocaleDateString() || "N/A";
+                    const updatedAtTime = new Date(ele.updatedAt).toLocaleTimeString() || "N/A";
+
                     return (
                       <tr key={ele?._id}>
                         <td>{i + 1}</td>
-                        <td>
-                          {ele?.doctorId?.firstname +
-                            " " +
-                            ele?.doctorId?.lastname}
-                        </td>
-                        <td>
-                          {ele?.userId?.firstname + " " + ele?.userId?.lastname}
-                        </td>
-                        <td>{ele?.date}</td>
-                        <td>{ele?.time}</td>
-                        <td>{ele?.createdAt.split("T")[0]}</td>
-                        <td>{ele?.updatedAt.split("T")[1].split(".")[0]}</td>
+                        <td>{ele?.doctorID?.firstname + " " + ele?.doctorID?.lastname || "N/A"}</td>
+                        <td>{ele?.patientID?.firstname + " " + ele?.patientID?.lastname || "N/A"}</td>
+                        <td>{appointmentDate.toLocaleDateString()}</td>
+                        <td>{appointmentDate.toLocaleTimeString()}</td>
+                        <td>{createdAtDate}</td>
+                        <td>{updatedAtTime}</td>
                         <td>{ele?.status}</td>
                         <td>
                           <button
-                            className={`btn user-btn accept-btn ${
-                              ele?.status === "Completed" ? "disable-btn" : ""
-                            }`}
+                            className={`btn user-btn accept-btn ${ele?.status === "Completed" ? "disable-btn" : ""}`}
                             disabled={ele?.status === "Completed"}
                             onClick={() => complete(ele)}
                           >
