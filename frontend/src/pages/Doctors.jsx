@@ -8,6 +8,7 @@ import Loading from "../components/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../redux/reducers/rootSlice";
 import Empty from "../components/Empty";
+import ShaderCanvas from "../components/ShaderCanvas";
 
 const Doctors = () => {
   const [doctors, setDoctors] = useState([]);
@@ -29,6 +30,7 @@ const Doctors = () => {
   return (
     <>
       <Navbar />
+      <ShaderCanvas />
       {loading && <Loading />}
       {!loading && (
         <section className="container doctors">

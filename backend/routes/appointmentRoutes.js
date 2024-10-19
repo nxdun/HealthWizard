@@ -31,7 +31,22 @@ router.get('/getallappointments', async (req, res) => {
     }
 });
 
-// Get appointments for a specific patient
+// Get appointments for a specific patient (FOR DOCTOR)
+router.get('/getPatientAppointments2/:patientID', async (req, res) => {
+    try {
+        const { patientID } = req.params;
+        const appointments = await Appointment.find({ doctorID :patientID })
+            .populate('doctorID', 'firstname lastname') // Populating doctor details
+            .populate('patientID', 'firstname lastname'); // Populating patient details
+
+        res.json(appointments);
+    } catch (err) {
+        console.error("Error retrieving appointments:", err);
+        res.status(500).json({ message: 'Error retrieving appointments.', error: err.message });
+    }
+});
+
+// Get appointments for a specific patient (FOR PATIENT)
 router.get('/getPatientAppointments/:patientID', async (req, res) => {
     try {
         const { patientID } = req.params;
@@ -60,7 +75,7 @@ router.get('/getall', async (req, res) => {
 // Get an appointment by ID
 router.get('/:appointmentID',  async (req, res) => {
     try {
-        const appointment = await Appointment.findOne({ appointmentID: req.params.appointmentID });
+        const appointment = await Appointment.findOne({ _id: req.params.appointmentID });
         if (!appointment) {
             return res.status(404).json({ message: 'Appointment not found.' });
         }
@@ -121,13 +136,13 @@ router.delete('/:appointmentID', async (req, res) => {
 router.patch('/s/:appointmentID', async (req, res) => {
     try {
         const { status } = req.body; // Expect status to be sent in request body
-        const validStatuses = ['Scheduled', 'Completed', 'Canceled', 'Rescheduled', 'Pending', 'NoShow'];
+        const validStatuses = ['Scheduled', 'Completed', 'Canceled', 'Rescheduled', 'Pending', 'NoShow', 'paid'];
 
         if (!validStatuses.includes(status)) {
             return res.status(400).json({ message: 'Invalid status.' });
         }
 
-        const appointment = await Appointment.findOne({ appointmentID: req.params.appointmentID });
+        const appointment = await Appointment.findOne({ _id: req.params.appointmentID });
         if (!appointment) {
             return res.status(404).json({ message: 'Appointment not found.' });
         }
