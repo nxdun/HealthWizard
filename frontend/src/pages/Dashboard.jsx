@@ -9,6 +9,7 @@ import Config from "../components/Config.jsx";
 import AddHospitalStaff from "../components/AddHospitalStaff/AddHospitalStaff.jsx";
 import RegisterHealthManager from "../components/AddHospitalStaff/AddHealthManager.jsx";
 import RegisterStaffMember from "../components/AddHospitalStaff/AddStaffMembers.jsx";
+import AllStaffMembers from "../components/allStaffMembers.jsx";
 
 const Dashboard = (props) => {
   const { type } = props;
@@ -30,8 +31,10 @@ const Dashboard = (props) => {
             <AddHospitalStaff />
           ) : type === "AddHealthManager" ? (
             <RegisterHealthManager />
-          ) : type === "AddStaffMember" ? (
-            <RegisterStaffMember />
+          ) : type === "AddHealthManager" ? (
+            <RegisterHealthManager />
+          )  : type === "AllStaffMembers" ? (
+            <AllStaffMembers />
           ) : type === "config" ? (
             <Config />
           ) : (

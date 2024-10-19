@@ -144,6 +144,14 @@ function App() {
             }
           />
           <Route
+            path="/dashboard/all-staff-members"
+            element={
+              <Protected>
+              <Dashboard type={"AllStaffMembers"} />
+              </Protected>
+            }
+          />
+          <Route
             path="/pay"
             element={
               <Protected>
