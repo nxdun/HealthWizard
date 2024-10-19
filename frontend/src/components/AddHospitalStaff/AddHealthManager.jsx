@@ -29,6 +29,7 @@ function RegisterHealthManager() {
       [name]: value,
     });
   };
+
   const onUpload = async (element) => {
     setLoading(true);
     if (element.type === "image/jpeg" || element.type === "image/png") {
@@ -92,18 +93,17 @@ function RegisterHealthManager() {
     }
   };
 
-  
   return (
     <>
       <ShaderCanvas />
       <section className="register-section flex-center">
-        <div className="register-container flex-center">
-          <h2 className="form-heading">Register Health Manager</h2>
-          <form onSubmit={formSubmit} className="register-form">
+        <div className="register-container flex-center w-full max-w-lg p-8 bg-white rounded-lg shadow-lg">
+          <h2 className="form-heading text-2xl font-bold mb-4">Register Health Manager</h2>
+          <form onSubmit={formSubmit} className="register-form space-y-4">
             <input
               type="text"
               name="firstname"
-              className="form-input"
+              className="form-input w-full p-2 border border-gray-300 rounded"
               placeholder="Enter your first name"
               value={formDetails.firstname}
               onChange={inputChange}
@@ -111,7 +111,7 @@ function RegisterHealthManager() {
             <input
               type="text"
               name="lastname"
-              className="form-input"
+              className="form-input w-full p-2 border border-gray-300 rounded"
               placeholder="Enter your last name"
               value={formDetails.lastname}
               onChange={inputChange}
@@ -119,7 +119,7 @@ function RegisterHealthManager() {
             <input
               type="email"
               name="email"
-              className="form-input"
+              className="form-input w-full p-2 border border-gray-300 rounded"
               placeholder="Enter your email"
               value={formDetails.email}
               onChange={inputChange}
@@ -127,7 +127,7 @@ function RegisterHealthManager() {
             <input
               type="date"
               name="dob"
-              className="form-input"
+              className="form-input w-full p-2 border border-gray-300 rounded"
               placeholder="Enter your date of birth"
               value={formDetails.dob}
               onChange={inputChange}
@@ -135,7 +135,7 @@ function RegisterHealthManager() {
             <input
               type="text"
               name="mobile"
-              className="form-input"
+              className="form-input w-full p-2 border border-gray-300 rounded"
               placeholder="Enter your mobile number"
               value={formDetails.mobile}
               onChange={inputChange}
@@ -143,22 +143,22 @@ function RegisterHealthManager() {
             <input
               type="text"
               name="address"
-              className="form-input"
+              className="form-input w-full p-2 border border-gray-300 rounded"
               placeholder="Enter your address"
               value={formDetails.address}
               onChange={inputChange}
             />
             <input
-            type="file"
-            onChange={(e) => onUpload(e.target.files[0])}
-            name="profile-pic"
-            id="profile-pic"
-            className="form-input"
-          />
+              type="file"
+              onChange={(e) => onUpload(e.target.files[0])}
+              name="profile-pic"
+              id="profile-pic"
+              className="form-input w-full p-2 border border-gray-300 rounded"
+            />
             <input
               type="password"
               name="password"
-              className="form-input"
+              className="form-input w-full p-2 border border-gray-300 rounded"
               placeholder="Enter your password"
               value={formDetails.password}
               onChange={inputChange}
@@ -166,14 +166,14 @@ function RegisterHealthManager() {
             <input
               type="password"
               name="confpassword"
-              className="form-input"
+              className="form-input w-full p-2 border border-gray-300 rounded"
               placeholder="Confirm your password"
               value={formDetails.confpassword}
               onChange={inputChange}
             />
             <button
               type="submit"
-              className="btn form-btn"
+              className="btn form-btn w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
               disabled={loading ? true : false}
             >
               Register Health Manager
