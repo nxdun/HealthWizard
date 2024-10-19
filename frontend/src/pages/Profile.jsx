@@ -7,11 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import Loading from "../components/Loading";
 import fetchData from "../helper/apiCall";
 import jwt_decode from "jwt-decode";
-
+import NavBar from "../components/NavBar";
+import ShaderCanvas from "../components/ShaderCanvas";
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_DOMAIN;
 
 function Profile() {
-  const { userId } = jwt_decode(localStorage.getItem("token"));
+  const decode = jwt_decode(localStorage.getItem("token"));
+  const userId = decode.personId;
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.root);
   const [file, setFile] = useState("");
@@ -30,7 +32,7 @@ function Profile() {
   const getUser = async () => {
     try {
       dispatch(setLoading(true));
-      const temp = await fetchData(`/user/getuser/${userId}`);
+      const temp = await fetchData(`/user/getperson/${userId}`);
       setFormDetails({
         ...temp,
         password: "",
@@ -119,6 +121,9 @@ function Profile() {
       {loading ? (
         <Loading />
       ) : (
+<>
+          <NavBar />
+          <ShaderCanvas />  
         <section className="register-section flex-center">
           <div className="profile-container flex-center">
             <h2 className="form-heading">Profile</h2>
@@ -217,13 +222,14 @@ function Profile() {
               </div>
               <button
                 type="submit"
-                className="btn form-btn"
+                className=" bg-orange-700 w-full text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               >
                 update
               </button>
             </form>
           </div>
         </section>
+        </>
       )}
     </>
   );
