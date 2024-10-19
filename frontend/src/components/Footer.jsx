@@ -29,7 +29,7 @@ const Footer = () => {
               </h2>
               <ul className="text-gray-500 dark:text-gray-400 font-medium">
                 <li className="mb-4">
-                  <a href="/" className="hover:underline">Documentation</a>
+                  <a href="/" className="hover:underline">Guide</a>
                 </li>
                 <li>
                   <a href="/" className="hover:underline">Support</a>
@@ -44,7 +44,7 @@ const Footer = () => {
               </h2>
               <ul className="text-gray-500 dark:text-gray-400 font-medium">
                 <li className="mb-4">
-                  <a href="https://github.com/" className="hover:underline">
+                  <a href="https://github.com/nxdun" className="hover:underline">
                     Github
                   </a>
                 </li>

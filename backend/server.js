@@ -15,6 +15,7 @@ const Configuration = require("./models/configuration");
 const GlobalModel = require("./models/globalModel");
 const staffRoutes = require("./routes/hospitalStaffRoutes");
 const personRouter = require("./routes/personRouter.js");
+const addStaffRoutes = require("./routes/staffRoutes.js");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -55,6 +56,7 @@ app.use("/api/payments", paymentRoutes);
 app.use("/api/doctors", doctorRoutes);
 app.use("/api/healthcaremanagers", healthCareManagerRoutes);
 app.use("/api/staff", staffRoutes);
+app.use("/api/addStaff", addStaffRoutes);
 app.use(express.static(path.join(__dirname, "./client")));
 
 app.get("*", (req, res) => {

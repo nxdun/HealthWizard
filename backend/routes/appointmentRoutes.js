@@ -31,12 +31,14 @@ router.get('/getallappointments', async (req, res) => {
     }
 });
 
-// Get appointments for a specific patient (FOR DOCTOR)
-router.get('/getPatientAppointments2/:patientID', async (req, res) => {
+// Get appointments for a specific doctor (FOR DOCTOR role)
+router.get('/getDoctorAppointments/:doctorid', async (req, res) => {
     try {
-        const { patientID } = req.params;
-        const appointments = await Appointment.find({ doctorID :patientID })
-            .populate('doctorID', 'firstname lastname') // Populating doctor details
+        const { doctorid } = req.params;
+        
+        // Finding appointments where doctorID matches the provided doctorid
+        const appointments = await Appointment.find({ 'doctorID': doctorid })
+            .populate('doctorID', 'firstname lastname')  // Populating doctor details
             .populate('patientID', 'firstname lastname'); // Populating patient details
 
         res.json(appointments);
@@ -45,6 +47,7 @@ router.get('/getPatientAppointments2/:patientID', async (req, res) => {
         res.status(500).json({ message: 'Error retrieving appointments.', error: err.message });
     }
 });
+
 
 // Get appointments for a specific patient (FOR PATIENT)
 router.get('/getPatientAppointments/:patientID', async (req, res) => {
