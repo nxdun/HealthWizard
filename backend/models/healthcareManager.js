@@ -1,22 +1,19 @@
-const mongoose = require('mongoose');
-const Person = require('./person'); // Importing Person model
+const mongoose = require("mongoose");
+const Person = require("./person");
 
-const healthcareManagerSchema = new mongoose.Schema({
-    managerID: { type: String, required: true, unique: true }, // Unique manager ID
-    department: { type: String, required: true },
-    contactInfo: { type: String, required: true } // Inheriting contactInfo from Person
+const healthManagerSchema = new mongoose.Schema({
+  HealthManagerID: { type: String, required: true, unique: true },
 });
 
-// Adding createAccount method for HealthcareManager
-healthcareManagerSchema.methods.createAccount = async function () {
-    try {
-        return await this.save(); // Save the Healthcare Manager instance
-    } catch (err) {
-        throw new Error('Error creating account: ' + err.message);
-    }
+// Methods specific to the Patient model
+healthManagerSchema.methods.createAccount = async function () {
+  try {
+    return await this.save();
+  } catch (err) {
+    throw new Error("Error creating account: " + err.message);
+  }
 };
 
-// Creating a discriminator for HealthcareManager
-const HealthcareManager = Person.discriminator('HealthcareManager', healthcareManagerSchema);
 
-module.exports = HealthcareManager;
+const Health = Person.discriminator("Health", healthManagerSchema);
+module.exports = Health;

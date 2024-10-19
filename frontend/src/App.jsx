@@ -120,6 +120,38 @@ function App() {
             </Protected>
           }
         />
+        <Route
+          path="/dashboard/add-hospital-staff"
+          element={
+            <Protected>
+              <Dashboard type={"AddHospitalStaff"} />
+            </Protected>
+          }
+        />
+          <Route
+            path="/dashboard/add-health-manager"
+            element={
+              <Protected>
+              <Dashboard type={"AddHealthManager"} />
+              </Protected>
+            }
+          />
+          <Route
+            path="/dashboard/add-staff-member"
+            element={
+              <Protected>
+              <Dashboard type={"AddStaffMember"} />
+              </Protected>
+            }
+          />
+          <Route
+            path="/dashboard/all-staff-members"
+            element={
+              <Protected>
+              <Dashboard type={"AllStaffMembers"} />
+              </Protected>
+            }
+          />
           <Route
             path="/pay"
             element={

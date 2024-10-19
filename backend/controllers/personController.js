@@ -131,6 +131,7 @@ const register = async (req, res) => {
   }
 };
 
+
 //note : id fixed by applying another search term
 const updateProfile = async (req, res) => {
   try {

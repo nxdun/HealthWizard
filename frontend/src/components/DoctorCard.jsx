@@ -51,7 +51,7 @@ const DoctorCard = ({ ele }) => {
 
       <p className="phone">
         <strong>Phone: </strong>
-        {ele?.userId?.mobile}
+        {ele?.mobile}
       </p>
 
       <button
