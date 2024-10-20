@@ -4,28 +4,30 @@ import "../styles/notification.css";
 import Empty from "../components/Empty";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import fetchData from "../helper/apiCall";
 import { setLoading } from "../redux/reducers/rootSlice";
 import Loading from "../components/Loading";
 import "../styles/user.css";
 
+
+//note Fellas hard coded data here Someone Apply Implement API down here..
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.root);
 
-  const getAllNotif = async (e) => {
-    try {
-      dispatch(setLoading(true));
-      const temp = await fetchData(`/notification/getallnotifs`);
-      dispatch(setLoading(false));
-      setNotifications(temp);
-    } catch (error) {}
-  };
-
   useEffect(() => {
-    getAllNotif();
-  }, []);
+    dispatch(setLoading(true));
+    const fakeData = [
+      {
+        _id: "1",
+        content: "A Mock notification",
+        updatedAt: "2030-10-01T10:00:00.000Z",
+      },
+
+    ];
+    setNotifications(fakeData);
+    dispatch(setLoading(false));
+  }, [dispatch]);
 
   return (
     <>
