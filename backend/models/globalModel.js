@@ -1,5 +1,5 @@
 // globalModel.js 
-// ? Singleton Pattern ⏬
+// ? Singleton Pattern ⏬ only 1 instance of this class can be created
 class GlobalModel {
     constructor() {
         if (!GlobalModel.instance) {

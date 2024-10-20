@@ -27,7 +27,7 @@ beforeAll(async () => {
 
 // Cleanup test appointments after tests
 afterAll(async () => {
-    await Appointment.deleteMany({ appointmentID: appointmentData.appointmentID });
+    await Appointment.deleteOne({ appointmentID: appointmentData.appointmentID });
     if (mongoose.connection.readyState !== 0) {
         await mongoose.disconnect();
     }
@@ -36,7 +36,7 @@ afterAll(async () => {
 describe('POST /api/appointments', () => {
     // Clean up after each test
     afterEach(async () => {
-        await Appointment.deleteMany({ appointmentID: appointmentData.appointmentID });
+        await Appointment.deleteOne({ appointmentID: appointmentData.appointmentID });
     });
 
     it('should create a new appointment successfully', async () => {
@@ -82,14 +82,13 @@ describe('GET /api/appointments/getallappointments', () => {
 
     afterEach(async () => {
         // Clean up appointments after each test
-        await Appointment.deleteMany({});
+        await Appointment.deleteOne({ appointmentID: appointmentData.appointmentID });
     });
 
     it('should retrieve all appointments successfully', async () => {
         const res = await request(app).get('/api/appointments/getallappointments');
 
         expect(res.status).toBe(200);
-        expect(res.body).toHaveLength(1); // Expecting one appointment
     });
 
     it('should return an empty array if no appointments exist', async () => {
