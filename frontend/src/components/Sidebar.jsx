@@ -36,7 +36,7 @@ const Sidebar = () => {
       icon: <FaUserMd />,
     },
     {
-      name: "\u00A0 Add Hospital Staff",
+      name: "\u00A0 Hospital Staff",
       path: "/dashboard/add-hospital-staff",
       icon: <FaUserPlus />,
     },

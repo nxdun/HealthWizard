@@ -28,8 +28,8 @@ const AddHospitalStaff = () => {
         </div>
       </div>
       <div className="flex flex-col items-center">
-        <NavLink to="/dashboard/add-doctor" className="flex items-center justify-center w-full bg-blue-600 text-white py-3 rounded-lg shadow hover:bg-blue-700 transition duration-300 mb-3">
-          <FaUserMd className="mr-2" /> Add Doctor
+        <NavLink to="/dashboard/all-staff-members" className="flex items-center justify-center w-full bg-blue-600 text-white py-3 rounded-lg shadow hover:bg-blue-700 transition duration-300 mb-3">
+          <FaUserMd className="mr-2" /> View All Staff Members
         </NavLink>
         <NavLink to="/dashboard/add-health-manager" className="flex items-center justify-center w-full bg-blue-600 text-white py-3 rounded-lg shadow hover:bg-blue-700 transition duration-300 mb-3">
           <FaUserPlus className="mr-2" /> Add Health Manager
