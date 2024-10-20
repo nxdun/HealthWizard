@@ -10,6 +10,7 @@ import AddHospitalStaff from "../components/AddHospitalStaff/AddHospitalStaff.js
 import RegisterHealthManager from "../components/AddHospitalStaff/AddHealthManager.jsx";
 import RegisterStaffMember from "../components/AddHospitalStaff/AddStaffMembers.jsx";
 import AllStaffMembers from "../components/allStaffMembers.jsx";
+import AllStaff from "../components/AddHospitalStaff/allStaff.jsx";
 
 const Dashboard = (props) => {
   const { type } = props;
@@ -34,7 +35,7 @@ const Dashboard = (props) => {
           ) : type === "AddStaffMember" ? (
             <RegisterStaffMember />
           )  : type === "AllStaffMembers" ? (
-            <AllStaffMembers />
+            <AllStaff />
           ) : type === "config" ? (
             <Config />
           ) : (

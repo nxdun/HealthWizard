@@ -16,7 +16,7 @@ const HealthSideBar = () => {
   const sidebar = [
     {
       name: "\u00A0 Home",
-      path: "/HealthHome",
+      path: "/healthDashboard",
       icon: <FaHome />,
     },
     {

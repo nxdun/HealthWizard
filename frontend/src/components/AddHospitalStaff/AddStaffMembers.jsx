@@ -97,7 +97,7 @@ function RegisterStaffMember() {
     <>
       <ShaderCanvas />
       <section className="register-section flex-center">
-        <div className="register-container flex-center">
+        <div className="register-container flex-center w-full max-w-lg pt-8 pb-6 p-6 bg-white rounded-lg shadow-lg">
           <h2 className="form-heading">Register Staff Member</h2>
           <form onSubmit={formSubmit} className="register-form">
             <input
