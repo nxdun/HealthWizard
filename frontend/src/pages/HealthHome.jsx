@@ -22,7 +22,7 @@ const HealthHome = () => {
           </h2>
           <ul className="nav-links">
             <li>
-              <NavLink to={"/"}>Home</NavLink>
+              <NavLink to={"/HealthHome"}>Home</NavLink>
             </li>
             <li>
               <NavLink to={"/healthDashboard"}>Dashboard</NavLink>
