@@ -1,0 +1,22 @@
+{
+  "name": "healthwizard",
+  "version": "1.0.0",
+  "description": "nuu",
+  "main": "index.js",
+ "scripts": {
+  "start": "node backend/index.js"
+},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nxdun/healthwizard.git"
+  },
+  "keywords": [
+    "health"
+  ],
+  "author": "nadun",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nxdun/healthwizard/issues"
+  },
+  "homepage": "https://github.com/nxdun/healthwizard#readme"
+}
