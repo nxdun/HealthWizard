@@ -1,5 +1,5 @@
 {
-  "name": "healthbooker-root",
+  "name": "healthbooker",
   "version": "1.0.0",
   "scripts": {
     "start": "cd backend && npm install && npm start"
