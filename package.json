@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "pub": "node server.js",
-    "start": "nodemon server.js",
+    "start": "node server.js",
     "test": "cross-env NODE_ENV=test jest --testTimeout=10000"
   },
   "author": "Avinash905",
